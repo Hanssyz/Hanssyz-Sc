@@ -1,3 +1,7 @@
+-- ==============================================================================
+-- FINAL CODE: HANSSYZ SC (ALL FEATURES)
+-- ==============================================================================
+
 local PlayersService = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local ReplicatedStorageService = game:GetService("ReplicatedStorage")
@@ -7,9 +11,9 @@ local RunService = game:GetService("RunService")
 local LocalPlayer = PlayersService.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
-local Configuration = {
+local Config = {
     HubName = "Hanssyz Sc",
-    HubVersion = "v24.0",
+    Version = "v40.0",
     StealToolName = "Burrowing Owl Egg (Tool)", 
     TriggerFolderName = "ToolTrigger",
     TriggerEventName = "Trigger",
@@ -24,579 +28,233 @@ local Configuration = {
 local StateManager = {
     IsRunning = false,
     IsMinimized = false,
+    IsExpanded = true,
     SuccessCounter = 0,
     FailCounter = 0,
     SelectedRarity = "All Rarity",
     SelectedZone = "All Zone",
-    IsMenuExpanded = true,
+    Theme = "Ocean Blue",
     SafeZonePosition = CFrame.new(0, 10, 0),
-    Blacklist = {}
+    Blacklist = {},
+    AntiKnockbackEnabled = true
 }
 
-local ColorTheme = {
-    PrimaryColor = Color3.fromRGB(88, 166, 255),
-    SuccessColor = Color3.fromRGB(100, 255, 160),
-    DangerColor = Color3.fromRGB(255, 120, 120),
-    BackgroundMain = Color3.fromRGB(12, 15, 30),
-    BackgroundSidebar = Color3.fromRGB(20, 24, 45),
-    BackgroundCard = Color3.fromRGB(30, 35, 60),
-    TextColorMain = Color3.fromRGB(245, 248, 255),
-    TextColorSecondary = Color3.fromRGB(150, 160, 190)
+local Themes = {
+    ["Ocean Blue"] = {Main = Color3.fromRGB(88, 166, 255), Bg1 = Color3.fromRGB(15, 23, 42), Bg2 = Color3.fromRGB(30, 41, 59)},
+    ["Crimson Red"] = {Main = Color3.fromRGB(255, 99, 132), Bg1 = Color3.fromRGB(30, 15, 20), Bg2 = Color3.fromRGB(50, 25, 35)},
+    ["Emerald Green"] = {Main = Color3.fromRGB(50, 255, 150), Bg1 = Color3.fromRGB(10, 25, 20), Bg2 = Color3.fromRGB(20, 45, 35)},
+    ["Royal Purple"] = {Main = Color3.fromRGB(190, 130, 255), Bg1 = Color3.fromRGB(20, 15, 30), Bg2 = Color3.fromRGB(35, 25, 50)},
+    ["Midnight Dark"] = {Main = Color3.fromRGB(200, 200, 200), Bg1 = Color3.fromRGB(10, 10, 12), Bg2 = Color3.fromRGB(25, 25, 30)}
 }
 
-local function CreateUIInstance(ClassName, PropertiesTable, ParentObject)
-    local NewInstance = Instance.new(ClassName)
-    for PropertyKey, PropertyValue in pairs(PropertiesTable) do
-        NewInstance[PropertyKey] = PropertyValue
-    end
-    if ParentObject then
-        NewInstance.Parent = ParentObject
-    end
-    return NewInstance
+local C = {
+    Succ = Color3.fromRGB(100, 255, 160),
+    Fail = Color3.fromRGB(255, 120, 120),
+    Text = Color3.fromRGB(245, 248, 255),
+    Sub = Color3.fromRGB(180, 190, 220),
+    Card = Color3.fromRGB(40, 45, 65)
+}
+
+local function Create(inst, props, parent)
+    local obj = Instance.new(inst)
+    for k, v in pairs(props) do obj[k] = v end
+    if parent then obj.Parent = parent end
+    return obj
 end
 
-local function ApplyUICorner(ParentObject, CornerRadiusValue)
-    local UICornerInstance = Instance.new("UICorner")
-    UICornerInstance.CornerRadius = UDim.new(0, CornerRadiusValue)
-    UICornerInstance.Parent = ParentObject
-    return UICornerInstance
-end
-
-local function ApplyUIStroke(ParentObject, StrokeColor, StrokeThickness, StrokeTransparency)
-    local UIStrokeInstance = Instance.new("UIStroke")
-    UIStrokeInstance.Color = StrokeColor
-    UIStrokeInstance.Thickness = StrokeThickness
-    UIStrokeInstance.Transparency = StrokeTransparency or 0
-    UIStrokeInstance.Parent = ParentObject
-    return UIStrokeInstance
-end
-
-if PlayerGui:FindFirstChild("HanssyzUI") then
-    PlayerGui.HanssyzUI:Destroy()
-end
+local function Corner(p, r) Create("UICorner", {CornerRadius=UDim.new(0,r)}, p) end
+local function Stroke(p, c, t, tr) Create("UIStroke", {Color=c, Thickness=t, Transparency=tr or 0}, p) end
 
 task.spawn(function()
-    task.wait(1.5)
-    local SpawnLocationObject = workspace:FindFirstChildOfClass("SpawnLocation")
-    if SpawnLocationObject then
-        StateManager.SafeZonePosition = SpawnLocationObject.CFrame + Vector3.new(0, 3, 0)
-    elseif LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-        StateManager.SafeZonePosition = LocalPlayer.Character.HumanoidRootPart.CFrame
-    end
+    task.wait(1)
+    local spawn = workspace:FindFirstChildOfClass("SpawnLocation")
+    if spawn then StateManager.SafeZonePosition = spawn.CFrame + Vector3.new(0,3,0)
+    elseif LocalPlayer.Character then StateManager.SafeZonePosition = LocalPlayer.Character.HumanoidRootPart.CFrame end
 end)
 
-local ScreenGuiInstance = CreateUIInstance("ScreenGui", {
-    Name = "HanssyzUI",
-    ResetOnSpawn = false,
-    ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-}, PlayerGui)
-
-local MainFrameInstance = CreateUIInstance("Frame", {
-    Name = "MainFrame",
-    Size = UDim2.new(0, 520, 0, 380),
-    Position = UDim2.new(0.5, -260, 0.5, -190),
-    BackgroundColor3 = ColorTheme.BackgroundMain,
-    BorderSizePixel = 0,
-    Active = true,
-    ClipsDescendants = true
-}, ScreenGuiInstance)
-ApplyUICorner(MainFrameInstance, 16)
-ApplyUIStroke(MainFrameInstance, ColorTheme.PrimaryColor, 2, 0.5)
-
-local SidebarFrameInstance = CreateUIInstance("Frame", {
-    Name = "SidebarFrame",
-    Size = UDim2.new(0, 140, 1, 0),
-    BackgroundColor3 = ColorTheme.BackgroundSidebar,
-    BorderSizePixel = 0
-}, MainFrameInstance)
-ApplyUICorner(SidebarFrameInstance, 16)
-
-local SidebarTitleLabel = CreateUIInstance("TextLabel", {
-    Name = "SidebarTitleLabel",
-    Size = UDim2.new(1, 0, 0, 50),
-    BackgroundTransparency = 1,
-    Text = "Hanssyz Sc",
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.PrimaryColor,
-    TextSize = 18
-}, SidebarFrameInstance)
-
-local AutoMenuButton = CreateUIInstance("TextButton", {
-    Name = "AutoMenuButton",
-    Size = UDim2.new(1, -20, 0, 40),
-    Position = UDim2.new(0, 10, 0, 60),
-    BackgroundColor3 = ColorTheme.PrimaryColor,
-    Text = "Auto",
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.TextColorMain,
-    TextSize = 14
-}, SidebarFrameInstance)
-ApplyUICorner(AutoMenuButton, 8)
-
-local ContentAreaFrameInstance = CreateUIInstance("Frame", {
-    Name = "ContentAreaFrame",
-    Size = UDim2.new(1, -160, 1, -20),
-    Position = UDim2.new(0, 150, 0, 10),
-    BackgroundTransparency = 1
-}, MainFrameInstance)
-
-local TopBarFrameInstance = CreateUIInstance("Frame", {
-    Name = "TopBarFrame",
-    Size = UDim2.new(1, 0, 0, 40),
-    BackgroundTransparency = 1,
-    Active = true
-}, ContentAreaFrameInstance)
-
-local TopBarTitleLabel = CreateUIInstance("TextLabel", {
-    Name = "TopBarTitleLabel",
-    Size = UDim2.new(1, -80, 1, 0),
-    Position = UDim2.new(0, 10, 0, 0),
-    BackgroundTransparency = 1,
-    Text = "Auto Steal Menu",
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.TextColorMain,
-    TextSize = 16,
-    TextXAlignment = Enum.TextXAlignment.Left
-}, TopBarFrameInstance)
-
-local MinimizeButton = CreateUIInstance("TextButton", {
-    Name = "MinimizeButton",
-    Size = UDim2.new(0, 30, 0, 30),
-    Position = UDim2.new(1, -70, 0.5, -15),
-    BackgroundColor3 = ColorTheme.PrimaryColor,
-    Text = "-",
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.TextColorMain,
-    TextSize = 20
-}, TopBarFrameInstance)
-ApplyUICorner(MinimizeButton, 6)
-
-local CloseButton = CreateUIInstance("TextButton", {
-    Name = "CloseButton",
-    Size = UDim2.new(0, 30, 0, 30),
-    Position = UDim2.new(1, -35, 0.5, -15),
-    BackgroundColor3 = ColorTheme.DangerColor,
-    Text = "X",
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.TextColorMain,
-    TextSize = 16
-}, TopBarFrameInstance)
-ApplyUICorner(CloseButton, 6)
-
-local ScrollingFrameInstance = CreateUIInstance("ScrollingFrame", {
-    Name = "ScrollingFrame",
-    Size = UDim2.new(1, 0, 1, -50),
-    Position = UDim2.new(0, 0, 0, 50),
-    BackgroundTransparency = 1,
-    BorderSizePixel = 0,
-    ScrollBarThickness = 3,
-    CanvasSize = UDim2.new(0, 0, 0, 500)
-}, ContentAreaFrameInstance)
-
-local StealSectionFrameInstance = CreateUIInstance("Frame", {
-    Name = "StealSectionFrame",
-    Size = UDim2.new(1, -10, 0, 45),
-    BackgroundColor3 = ColorTheme.BackgroundCard
-}, ScrollingFrameInstance)
-ApplyUICorner(StealSectionFrameInstance, 8)
-
-local StealSectionLabel = CreateUIInstance("TextLabel", {
-    Name = "StealSectionLabel",
-    Size = UDim2.new(1, -40, 1, 0),
-    Position = UDim2.new(0, 15, 0, 0),
-    BackgroundTransparency = 1,
-    Text = "Steal Egg",
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.TextColorMain,
-    TextSize = 14,
-    TextXAlignment = Enum.TextXAlignment.Left
-}, StealSectionFrameInstance)
-
-local ExpandArrowButton = CreateUIInstance("TextButton", {
-    Name = "ExpandArrowButton",
-    Size = UDim2.new(0, 30, 0, 30),
-    Position = UDim2.new(1, -40, 0.5, -15),
-    BackgroundColor3 = Color3.fromRGB(50, 55, 80),
-    Text = "▼",
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.TextColorMain,
-    TextSize = 12
-}, StealSectionFrameInstance)
-ApplyUICorner(ExpandArrowButton, 6)
-
-local StealContentFrameInstance = CreateUIInstance("Frame", {
-    Name = "StealContentFrame",
-    Size = UDim2.new(1, -10, 0, 230),
-    Position = UDim2.new(0, 0, 0, 50),
-    BackgroundTransparency = 1,
-    ClipsDescendants = true
-}, ScrollingFrameInstance)
-
-local RarityLabel = CreateUIInstance("TextLabel", {
-    Name = "RarityLabel",
-    Size = UDim2.new(0.4, 0, 0, 30),
-    BackgroundTransparency = 1,
-    Text = "Rarity Filter:",
-    Font = Enum.Font.Gotham,
-    TextColor3 = ColorTheme.TextColorSecondary,
-    TextSize = 12,
-    TextXAlignment = Enum.TextXAlignment.Left
-}, StealContentFrameInstance)
-
-local RarityDropdownButton = CreateUIInstance("TextButton", {
-    Name = "RarityDropdownButton",
-    Size = UDim2.new(0.5, 0, 0, 30),
-    Position = UDim2.new(0.45, 0, 0, 0),
-    BackgroundColor3 = ColorTheme.BackgroundCard,
-    Text = StateManager.SelectedRarity,
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.TextColorMain,
-    TextSize = 12
-}, StealContentFrameInstance)
-ApplyUICorner(RarityDropdownButton, 6)
-
-local ZoneLabel = CreateUIInstance("TextLabel", {
-    Name = "ZoneLabel",
-    Size = UDim2.new(0.4, 0, 0, 30),
-    Position = UDim2.new(0, 0, 0, 40),
-    BackgroundTransparency = 1,
-    Text = "Zone Filter:",
-    Font = Enum.Font.Gotham,
-    TextColor3 = ColorTheme.TextColorSecondary,
-    TextSize = 12,
-    TextXAlignment = Enum.TextXAlignment.Left
-}, StealContentFrameInstance)
-
-local ZoneDropdownButton = CreateUIInstance("TextButton", {
-    Name = "ZoneDropdownButton",
-    Size = UDim2.new(0.5, 0, 0, 30),
-    Position = UDim2.new(0.45, 0, 0, 40),
-    BackgroundColor3 = ColorTheme.BackgroundCard,
-    Text = StateManager.SelectedZone,
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.TextColorMain,
-    TextSize = 12
-}, StealContentFrameInstance)
-ApplyUICorner(ZoneDropdownButton, 6)
-
-local ToggleLabel = CreateUIInstance("TextLabel", {
-    Name = "ToggleLabel",
-    Size = UDim2.new(0.6, 0, 0, 30),
-    Position = UDim2.new(0, 0, 0, 90),
-    BackgroundTransparency = 1,
-    Text = "Auto Steal",
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.TextColorMain,
-    TextSize = 14,
-    TextXAlignment = Enum.TextXAlignment.Left
-}, StealContentFrameInstance)
-
-local ToggleSwitchButton = CreateUIInstance("TextButton", {
-    Name = "ToggleSwitchButton",
-    Size = UDim2.new(0, 45, 0, 24),
-    Position = UDim2.new(0.8, 0, 0, 93),
-    BackgroundColor3 = Color3.fromRGB(50, 55, 80),
-    Text = ""
-}, StealContentFrameInstance)
-ApplyUICorner(ToggleSwitchButton, 12)
-
-local ToggleKnob = CreateUIInstance("Frame", {
-    Name = "ToggleKnob",
-    Size = UDim2.new(0, 20, 0, 20),
-    Position = UDim2.new(0, 2, 0.5, -10),
-    BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-}, ToggleSwitchButton)
-ApplyUICorner(ToggleKnob, 10)
-
-local MonitorBoxFrameInstance = CreateUIInstance("Frame", {
-    Name = "MonitorBoxFrame",
-    Size = UDim2.new(1, 0, 0, 60),
-    Position = UDim2.new(0, 0, 0, 140),
-    BackgroundColor3 = ColorTheme.BackgroundCard
-}, StealContentFrameInstance)
-ApplyUICorner(MonitorBoxFrameInstance, 8)
-
-local SuccessLabel = CreateUIInstance("TextLabel", {
-    Name = "SuccessLabel",
-    Size = UDim2.new(1, -20, 0, 30),
-    Position = UDim2.new(0, 10, 0, 5),
-    BackgroundTransparency = 1,
-    Text = "Eggs Brought: 0",
-    Font = Enum.Font.GothamBold,
-    TextColor3 = ColorTheme.SuccessColor,
-    TextSize = 14,
-    TextXAlignment = Enum.TextXAlignment.Left
-}, MonitorBoxFrameInstance)
-
-local FailLabel = CreateUIInstance("TextLabel", {
-    Name = "FailLabel",
-    Size = UDim2.new(1, -20, 0, 20),
-    Position = UDim2.new(0, 10, 0, 30),
-    BackgroundTransparency = 1,
-    Text = "Failed: 0",
-    Font = Enum.Font.Gotham,
-    TextColor3 = ColorTheme.DangerColor,
-    TextSize = 12,
-    TextXAlignment = Enum.TextXAlignment.Left
-}, MonitorBoxFrameInstance)
-
-local function CreateDropdownMenuSystem(ParentButton, OptionsListTable, CallbackFunction)
-    local IsDropdownOpen = false
-    local DropdownMenuFrame = CreateUIInstance("ScrollingFrame", {
-        Size = UDim2.new(0.5, 0, 0, 0),
-        Position = UDim2.new(0.45, 0, 1, 5),
-        BackgroundColor3 = ColorTheme.BackgroundSidebar,
-        Visible = false,
-        CanvasSize = UDim2.new(0, 0, 0, #OptionsListTable * 30),
-        ZIndex = 10
-    }, ParentButton.Parent)
-    ApplyUICorner(DropdownMenuFrame, 6)
-    ApplyUIStroke(DropdownMenuFrame, ColorTheme.PrimaryColor, 1, 0)
-    
-    for IndexValue, OptionTextValue in ipairs(OptionsListTable) do
-        local OptionButton = CreateUIInstance("TextButton", {
-            Size = UDim2.new(1, 0, 0, 30),
-            Position = UDim2.new(0, 0, 0, (IndexValue - 1) * 30),
-            BackgroundColor3 = ColorTheme.BackgroundCard,
-            Text = OptionTextValue,
-            Font = Enum.Font.Gotham,
-            TextColor3 = ColorTheme.TextColorMain,
-            TextSize = 12,
-            ZIndex = 11
-        }, DropdownMenuFrame)
-        
-        OptionButton.MouseButton1Click:Connect(function()
-            ParentButton.Text = OptionTextValue
-            DropdownMenuFrame.Visible = false
-            TweenService:Create(DropdownMenuFrame, TweenInfo.new(0.2), {Size = UDim2.new(0.5, 0, 0, 0)}):Play()
-            CallbackFunction(OptionTextValue)
-        end)
+local function ApplyAKB(ch)
+    local h = ch:WaitForChild("Humanoid", 5)
+    if h then 
+        h:SetStateEnabled(Enum.HumanoidStateType.Ragdoll, not StateManager.AntiKnockbackEnabled)
+        h:SetStateEnabled(Enum.HumanoidStateType.FallingDown, not StateManager.AntiKnockbackEnabled) 
     end
-    
-    ParentButton.MouseButton1Click:Connect(function()
-        IsDropdownOpen = not IsDropdownOpen
-        DropdownMenuFrame.Visible = IsDropdownOpen
-        TweenService:Create(DropdownMenuFrame, TweenInfo.new(0.2), {Size = IsDropdownOpen and UDim2.new(0.5, 0, 0, #OptionsListTable * 30) or UDim2.new(0.5, 0, 0, 0)}):Play()
+end
+LocalPlayer.CharacterAdded:Connect(ApplyAKB)
+if LocalPlayer.Character then ApplyAKB(LocalPlayer.Character) end
+
+local oldNC
+oldNC = hookmetamethod(game, "__namecall", function(self, ...)
+    if not StateManager.AntiKnockbackEnabled then return oldNC(self, ...) end
+    if getnamecallmethod() == "FireServer" then
+        for _, v in pairs({...}) do
+            if typeof(v) == "string" and (v:lower():find("ragdoll") or v:lower():find("knockback")) then return end
+        end
+    end
+    return oldNC(self, ...)
+end)
+
+if PlayerGui:FindFirstChild("HanssyzUI") then PlayerGui.HanssyzUI:Destroy() end
+
+local GUI = Create("ScreenGui", {Name="HanssyzUI", ResetOnSpawn=false}, PlayerGui)
+local Shadow = Create("Frame", {Size=UDim2.new(0,540,0,420), Position=UDim2.new(0.5,-270,0.5,-210), BackgroundColor3=Color3.new(0,0,0), BackgroundTransparency=0.5, ZIndex=0}, GUI); Corner(Shadow, 20)
+local Main = Create("Frame", {Size=UDim2.new(0,520,0,400), Position=UDim2.new(0.5,-260,0.5,-200), BackgroundColor3=Themes[StateManager.Theme].Bg1, ClipsDescendants=true, ZIndex=1}, GUI); Corner(Main, 16); local MStr = Create("UIStroke", {Color=Themes[StateManager.Theme].Main, Thickness=2, Transparency=0.2}, Main)
+local BgG = Create("Frame", {Size=UDim2.new(1,0,1,0), BackgroundColor3=Themes[StateManager.Theme].Bg2, ZIndex=1}, Main)
+local Grad = Create("UIGradient", {Rotation=45, Color=ColorSequence.new({ColorSequenceKeypoint.new(0,Themes[StateManager.Theme].Bg1), ColorSequenceKeypoint.new(1,Themes[StateManager.Theme].Bg2)})}, BgG)
+
+local Side = Create("Frame", {Size=UDim2.new(0,130,1,0), BackgroundColor3=Color3.new(0,0,0), BackgroundTransparency=0.3, ZIndex=2}, Main); Corner(Side, 16)
+local Title = Create("TextLabel", {Size=UDim2.new(1,0,0,60), BackgroundTransparency=1, Text="Hanssyz Sc", Font=Enum.Font.GothamBold, TextColor3=Themes[StateManager.Theme].Main, TextSize=18, ZIndex=3}, Side)
+
+local function Sbtn(n, y) 
+    local b = Create("TextButton", {Size=UDim2.new(1,-20,0,35), Position=UDim2.new(0,10,0,y), BackgroundColor3=Themes[StateManager.Theme].Main, BackgroundTransparency=(n=="Main") and 0.8 or 1, Text=n, Font=Enum.Font.Gotham, TextColor3=C.Text, TextSize=13, ZIndex=3}, Side); Corner(b, 8); return b 
+end
+local TbMain, TbMisc, TbSet = Sbtn("Main", 70), Sbtn("Misc", 115), Sbtn("Settings", 160)
+
+local Cont = Create("Frame", {Size=UDim2.new(1,-150,1,-20), Position=UDim2.new(0,140,0,10), BackgroundTransparency=1, ZIndex=2}, Main)
+local Top = Create("Frame", {Size=UDim2.new(1,0,0,40), BackgroundTransparency=1, Active=true, ZIndex=2}, Cont)
+Create("TextLabel", {Size=UDim2.new(1,-80,1,0), Position=UDim2.new(0,10,0,0), BackgroundTransparency=1, Text="Dashboard", Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=16, TextXAlignment=Enum.TextXAlignment.Left, ZIndex=3}, Top)
+local MinB = Create("TextButton", {Size=UDim2.new(0,30,0,30), Position=UDim2.new(1,-70,0.5,-15), BackgroundColor3=Themes[StateManager.Theme].Main, Text="-", Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=20, ZIndex=3}, Top); Corner(MinB, 6)
+local ClsB = Create("TextButton", {Size=UDim2.new(0,30,0,30), Position=UDim2.new(1,-35,0.5,-15), BackgroundColor3=C.Fail, Text="X", Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=16, ZIndex=3}, Top); Corner(ClsB, 6)
+
+local Scr = Create("ScrollingFrame", {Size=UDim2.new(1,0,1,-50), Position=UDim2.new(0,0,0,50), BackgroundTransparency=1, ScrollBarThickness=2, CanvasSize=UDim2.new(0,0,0,500), ZIndex=2}, Cont)
+
+-- Page Main
+local PgMain = Create("Frame", {Size=UDim2.new(1,0,0,400), BackgroundTransparency=1, ZIndex=2}, Scr)
+local Hdr = Create("Frame", {Size=UDim2.new(1,-10,0,45), BackgroundColor3=C.Card, ZIndex=2}, PgMain); Corner(Hdr, 8)
+Create("TextLabel", {Size=UDim2.new(1,-40,1,0), Position=UDim2.new(0,15,0,0), BackgroundTransparency=1, Text="Steal Egg", Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=14, TextXAlignment=Enum.TextXAlignment.Left, ZIndex=3}, Hdr)
+local ArrB = Create("TextButton", {Size=UDim2.new(0,30,0,30), Position=UDim2.new(1,-40,0.5,-15), BackgroundColor3=Color3.fromRGB(50,55,80), Text="▼", Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=12, ZIndex=3}, Hdr); Corner(ArrB, 6)
+
+local Acc = Create("Frame", {Size=UDim2.new(1,-10,0,230), Position=UDim2.new(0,0,0,50), BackgroundTransparency=1, ClipsDescendants=true, ZIndex=2}, PgMain)
+local RarB = Create("TextButton", {Size=UDim2.new(0.5,0,0,30), Position=UDim2.new(0.45,0,0,0), BackgroundColor3=C.Card, Text=StateManager.SelectedRarity, Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=12, ZIndex=4}, Acc); Corner(RarB, 6)
+Create("TextLabel", {Size=UDim2.new(0.4,0,0,30), BackgroundTransparency=1, Text="Rarity:", Font=Enum.Font.Gotham, TextColor3=C.Sub, TextSize=12, TextXAlignment=Enum.TextXAlignment.Left, ZIndex=3}, Acc)
+
+local ZonB = Create("TextButton", {Size=UDim2.new(0.5,0,0,30), Position=UDim2.new(0.45,0,0,40), BackgroundColor3=C.Card, Text=StateManager.SelectedZone, Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=12, ZIndex=4}, Acc); Corner(ZonB, 6)
+Create("TextLabel", {Size=UDim2.new(0.4,0,0,30), Position=UDim2.new(0,0,0,40), BackgroundTransparency=1, Text="Zone:", Font=Enum.Font.Gotham, TextColor3=C.Sub, TextSize=12, TextXAlignment=Enum.TextXAlignment.Left, ZIndex=3}, Acc)
+
+Create("TextLabel", {Size=UDim2.new(0.6,0,0,30), Position=UDim2.new(0,0,0,90), BackgroundTransparency=1, Text="Auto Steal", Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=14, TextXAlignment=Enum.TextXAlignment.Left, ZIndex=3}, Acc)
+local TogB = Create("TextButton", {Size=UDim2.new(0,45,0,24), Position=UDim2.new(0.8,0,0,93), BackgroundColor3=Color3.fromRGB(50,55,80), Text="", ZIndex=4}, Acc); Corner(TogB, 12)
+local Knob = Create("Frame", {Size=UDim2.new(0,20,0,20), Position=UDim2.new(0,2,0.5,-10), BackgroundColor3=Color3.new(1,1,1), ZIndex=5}, TogB); Corner(Knob, 10)
+
+local Mon = Create("Frame", {Size=UDim2.new(1,0,0,60), Position=UDim2.new(0,0,0,140), BackgroundColor3=C.Card, ZIndex=3}, Acc); Corner(Mon, 8)
+local SucL = Create("TextLabel", {Size=UDim2.new(1,-20,0,30), Position=UDim2.new(0,10,0,5), BackgroundTransparency=1, Text="Eggs: 0", Font=Enum.Font.GothamBold, TextColor3=C.Succ, TextSize=14, TextXAlignment=Enum.TextXAlignment.Left, ZIndex=4}, Mon)
+local FaiL = Create("TextLabel", {Size=UDim2.new(1,-20,0,20), Position=UDim2.new(0,10,0,30), BackgroundTransparency=1, Text="Fail: 0", Font=Enum.Font.Gotham, TextColor3=C.Fail, TextSize=12, TextXAlignment=Enum.TextXAlignment.Left, ZIndex=4}, Mon)
+
+-- Page Misc
+local PgMisc = Create("Frame", {Size=UDim2.new(1,0,0,400), BackgroundTransparency=1, Visible=false, ZIndex=2}, Scr)
+Create("TextLabel", {Size=UDim2.new(1,0,0,30), BackgroundTransparency=1, Text="Miscellaneous", Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=16, TextXAlignment=Enum.TextXAlignment.Left, ZIndex=3}, PgMisc)
+local AKBox = Create("Frame", {Size=UDim2.new(1,0,0,50), Position=UDim2.new(0,0,0,40), BackgroundColor3=C.Card, ZIndex=3}, PgMisc); Corner(AKBox, 8)
+Create("TextLabel", {Size=UDim2.new(0.6,0,1,0), Position=UDim2.new(0,15,0,0), BackgroundTransparency=1, Text="Anti Knockback", Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=14, TextXAlignment=Enum.TextXAlignment.Left, ZIndex=4}, AKBox)
+local AKT = Create("TextButton", {Size=UDim2.new(0,45,0,24), Position=UDim2.new(0.8,0,0.5,-12), BackgroundColor3=Themes[StateManager.Theme].Main, Text="", ZIndex=4}, AKBox); Corner(AKT, 12)
+local AKK = Create("Frame", {Size=UDim2.new(0,20,0,20), Position=UDim2.new(1,-22,0.5,-10), BackgroundColor3=Color3.new(1,1,1), ZIndex=5}, AKT); Corner(AKK, 10)
+
+-- Page Settings
+local PgSet = Create("Frame", {Size=UDim2.new(1,0,0,400), BackgroundTransparency=1, Visible=false, ZIndex=2}, Scr)
+Create("TextLabel", {Size=UDim2.new(1,0,0,30), BackgroundTransparency=1, Text="Theme Settings", Font=Enum.Font.GothamBold, TextColor3=C.Text, TextSize=16, TextXAlignment=Enum.TextXAlignment.Left, ZIndex=3}, PgSet)
+local ThemB = Create("TextButton", {Size=UDim2.new(1,0,0,35), Position=UDim2.new(0,0,0,40), BackgroundColor3=C.Card, Text="Theme: "..StateManager.Theme, Font=Enum.Font.Gotham, TextColor3=C.Text, TextSize=13, ZIndex=4}, PgSet); Corner(ThemB, 6)
+
+-- Dropdowns
+local function MakeDD(btn, opts, cb)
+    local op = false
+    local m = Create("ScrollingFrame", {Size=UDim2.new(0.5,0,0,0), Position=UDim2.new(0.45,0,1,5), BackgroundColor3=Themes[StateManager.Theme].Bg2, Visible=false, CanvasSize=UDim2.new(0,0,0,#opts*30), ZIndex=999}, btn.Parent); Corner(m, 6)
+    for i, o in ipairs(opts) do
+        local ob = Create("TextButton", {Size=UDim2.new(1,0,0,30), Position=UDim2.new(0,0,0,(i-1)*30), BackgroundColor3=C.Card, Text=o, Font=Enum.Font.Gotham, TextColor3=C.Text, TextSize=12, ZIndex=1000}, m)
+        ob.MouseButton1Click:Connect(function() btn.Text=o; m.Visible=false; TweenService:Create(m, TweenInfo.new(0.2), {Size=UDim2.new(0.5,0,0,0)}):Play(); cb(o) end)
+    end
+    btn.MouseButton1Click:Connect(function() op=not op; m.Visible=op; TweenService:Create(m, TweenInfo.new(0.2), {Size=op and UDim2.new(0.5,0,0,#opts*30) or UDim2.new(0.5,0,0,0)}):Play() end)
+end
+MakeDD(RarB, {"All Rarity", "Common", "Rare", "Epic", "Legendary", "Mythic", "Cosmic", "Secret", "Eternal", "Divine"}, function(v) StateManager.SelectedRarity=v end)
+MakeDD(ZonB, {"All Zone", "Forest", "Lake", "Desert", "Jungle", "Snow", "Volcano", "Cosmic"}, function(v) StateManager.SelectedZone=v end)
+
+local TList = {"Ocean Blue", "Crimson Red", "Emerald Green", "Royal Purple", "Midnight Dark"}
+local top = false
+local tMenu = Create("ScrollingFrame", {Size=UDim2.new(1,0,0,0), Position=UDim2.new(0,0,1,5), BackgroundColor3=Themes[StateManager.Theme].Bg2, Visible=false, CanvasSize=UDim2.new(0,0,0,#TList*30), ZIndex=999}, ThemB.Parent); Corner(tMenu, 6)
+for i, t in ipairs(TList) do
+    local tb = Create("TextButton", {Size=UDim2.new(1,0,0,30), Position=UDim2.new(0,0,0,(i-1)*30), BackgroundColor3=C.Card, Text=t, Font=Enum.Font.Gotham, TextColor3=C.Text, TextSize=12, ZIndex=1000}, tMenu)
+    tb.MouseButton1Click:Connect(function()
+        StateManager.Theme=t; ThemB.Text="Theme: "..t; tMenu.Visible=false
+        Main.BackgroundColor3=Themes[t].Bg1; Grad.Color=ColorSequence.new({ColorSequenceKeypoint.new(0,Themes[t].Bg1), ColorSequenceKeypoint.new(1,Themes[t].Bg2)})
+        MStr.Color=Themes[t].Main; Title.TextColor3=Themes[t].Main; TbMain.BackgroundColor3=Themes[t].Main; TbMisc.BackgroundColor3=Themes[t].Main; TbSet.BackgroundColor3=Themes[t].Main; MinB.BackgroundColor3=Themes[t].Main; AKT.BackgroundColor3=Themes[t].Main
     end)
 end
+ThemB.MouseButton1Click:Connect(function() top=not top; tMenu.Visible=top; TweenService:Create(tMenu, TweenInfo.new(0.2), {Size=top and UDim2.new(1,0,0,#TList*30) or UDim2.new(1,0,0,0)}):Play() end)
 
-CreateDropdownMenuSystem(RarityDropdownButton, {"All Rarity", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythic", "Cosmic", "Secret", "Eternal", "Divine"}, function(SelectedValue)
-    StateManager.SelectedRarity = SelectedValue
-end)
+-- Tab Switching
+local function SwTab(n)
+    PgMain.Visible = (n=="Main"); PgMisc.Visible = (n=="Misc"); PgSet.Visible = (n=="Settings")
+    TbMain.BackgroundTransparency = (n=="Main") and 0.8 or 1; TbMisc.BackgroundTransparency = (n=="Misc") and 0.8 or 1; TbSet.BackgroundTransparency = (n=="Settings") and 0.8 or 1
+end
+TbMain.MouseButton1Click:Connect(function() SwTab("Main") end); TbMisc.MouseButton1Click:Connect(function() SwTab("Misc") end); TbSet.MouseButton1Click:Connect(function() SwTab("Settings") end)
 
-CreateDropdownMenuSystem(ZoneDropdownButton, {"All Zone", "Forest", "Lake", "Desert", "Jungle", "Snow", "Volcano", "Abyss", "Prehistoric", "Cosmic", "CherryBlossom", "TitanTemple"}, function(SelectedValue)
-    StateManager.SelectedZone = SelectedValue
-end)
-
-local function IsStolen(EggObject)
-    for _, StolenObject in pairs(StateManager.Blacklist) do
-        if StolenObject == EggObject then
-            return true
+-- Steal Logic
+local function IsBL(e) for _, v in pairs(StateManager.Blacklist) do if v==e then return true end end return false end
+local function GetEgg()
+    local c = LocalPlayer.Character; if not c or not c:FindFirstChild("HumanoidRootPart") then return nil end
+    local h, cl, md = c.HumanoidRootPart, nil, math.huge
+    for _, v in pairs(workspace:GetDescendants()) do
+        if v.Name:lower():find("egg") and (v:IsA("Model") or v:IsA("BasePart")) and not v.Name:lower():find("fitbounds") and not v.Name:lower():find("treadmill") and not v.Name:lower():find("machine") then
+            if StateManager.SelectedRarity~="All Rarity" and not v.Name:lower():find(StateManager.SelectedRarity:lower()) then continue end
+            if StateManager.SelectedZone~="All Zone" and not v.Name:lower():find(StateManager.SelectedZone:lower()) then continue end
+            if IsBL(v) then continue end
+            local p = v:IsA("Model") and v:GetPivot().Position or v.Position
+            local d = (h.Position - p).Magnitude
+            if d < md then cl = v; md = d end
         end
     end
-    return false
+    return cl
 end
 
-local function FindClosestValidEgg()
-    local CharacterObject = LocalPlayer.Character
-    if not CharacterObject or not CharacterObject:FindFirstChild("HumanoidRootPart") then
-        return nil
-    end
-    
-    local HumanoidRootPartObject = CharacterObject.HumanoidRootPart
-    local ClosestEggObject = nil
-    local MinimumDistanceValue = math.huge
-
-    for _, WorkspaceDescendant in pairs(workspace:GetDescendants()) do
-        if WorkspaceDescendant.Name:lower():find("egg") and (WorkspaceDescendant:IsA("Model") or WorkspaceDescendant:IsA("BasePart")) then
-            
-            if StateManager.SelectedRarity ~= "All Rarity" and not WorkspaceDescendant.Name:lower():find(StateManager.SelectedRarity:lower()) then
-                continue
-            end
-            
-            if StateManager.SelectedZone ~= "All Zone" and not WorkspaceDescendant.Name:lower():find(StateManager.SelectedZone:lower()) then
-                continue
-            end
-
-            if IsStolen(WorkspaceDescendant) then
-                continue
-            end
-            
-            local ObjectPosition = nil
-            if WorkspaceDescendant:IsA("Model") then
-                ObjectPosition = WorkspaceDescendant:GetPivot().Position
-            elseif WorkspaceDescendant:IsA("BasePart") then
-                ObjectPosition = WorkspaceDescendant.Position
-            end
-            
-            if ObjectPosition then
-                local CalculatedDistance = (HumanoidRootPartObject.Position - ObjectPosition).Magnitude
-                if CalculatedDistance < MinimumDistanceValue then
-                    ClosestEggObject = WorkspaceDescendant
-                    MinimumDistanceValue = CalculatedDistance
-                end
-            end
-        end
-    end
-    
-    return ClosestEggObject
-end
-
-local function ExecuteAutoStealSequence()
-    local TargetEggObject = FindClosestValidEgg()
-    if not TargetEggObject then
-        return false
-    end
-
-    local SequenceSuccess = pcall(function()
-        local CharacterObject = LocalPlayer.Character
-        local HumanoidRootPartObject = CharacterObject.HumanoidRootPart
-        local TargetPositionValue = nil
-        
-        if TargetEggObject:IsA("Model") then
-            TargetPositionValue = TargetEggObject:GetPivot().Position
-        else
-            TargetPositionValue = TargetEggObject.Position
-        end
-        
-        HumanoidRootPartObject.CFrame = CFrame.new(TargetPositionValue + Vector3.new(0, 3, 0))
-        task.wait(Configuration.DelayAfterTeleport)
-        
-        local TriggerFolderObject = ReplicatedStorageService:FindFirstChild(Configuration.TriggerFolderName)
-        if TriggerFolderObject then
-            local TriggerEventObject = TriggerFolderObject:FindFirstChild(Configuration.TriggerEventName)
-            if TriggerEventObject then
-                TriggerEventObject:FireServer(Configuration.StealToolName)
-            end
-        end
-        
-        task.wait(Configuration.DelayAfterTrigger)
-        
-        local CarryFolderObject = ReplicatedStorageService:FindFirstChild(Configuration.CarryFolderName)
-        if CarryFolderObject then
-            local CarryEventObject = CarryFolderObject:FindFirstChild(Configuration.CarryEventName)
-            if CarryEventObject then
-                CarryEventObject:FireServer(TargetEggObject)
-            end
-        end
-        
-        task.wait(Configuration.DelayAfterCarry)
-        
-        HumanoidRootPartObject.CFrame = StateManager.SafeZonePosition
-        task.wait(Configuration.DelayAfterSafeZone)
+local function DoSt()
+    local e = GetEgg(); if not e then return false end
+    local ok = pcall(function()
+        local h = LocalPlayer.Character.HumanoidRootPart
+        h.CFrame = CFrame.new((e:IsA("Model") and e:GetPivot().Position or e.Position) + Vector3.new(0,3,0))
+        task.wait(Config.DelayAfterTeleport)
+        local f1 = ReplicatedStorageService:FindFirstChild(Config.TriggerFolderName); if f1 and f1:FindFirstChild(Config.TriggerEventName) then f1[Config.TriggerEventName]:FireServer(Config.StealToolName) end
+        task.wait(Config.DelayAfterTrigger)
+        local f2 = ReplicatedStorageService:FindFirstChild(Config.CarryFolderName); if f2 and f2:FindFirstChild(Config.CarryEventName) then f2[Config.CarryEventName]:FireServer(e) end
+        task.wait(Config.DelayAfterCarry); h.CFrame = StateManager.SafeZonePosition; task.wait(Config.DelayAfterSafeZone)
     end)
-    
-    if SequenceSuccess then
-        table.insert(StateManager.Blacklist, TargetEggObject)
-    end
-    
-    return SequenceSuccess
+    table.insert(StateManager.Blacklist, e); return ok
 end
 
-local function AutoStealMainLoop()
+local function Lp()
     task.spawn(function()
         while StateManager.IsRunning do
-            local LoopSuccess = ExecuteAutoStealSequence()
-            
-            if LoopSuccess then
-                StateManager.SuccessCounter = StateManager.SuccessCounter + 1
-                SuccessLabel.Text = "Eggs Brought: " .. StateManager.SuccessCounter
-            else
-                StateManager.FailCounter = StateManager.FailCounter + 1
-                FailLabel.Text = "Failed: " .. StateManager.FailCounter
-            end
-            
+            local ok = DoSt()
+            if ok then StateManager.SuccessCounter=StateManager.SuccessCounter+1; SucL.Text="Eggs: "..StateManager.SuccessCounter
+            else StateManager.FailCounter=StateManager.FailCounter+1; FaiL.Text="Fail: "..StateManager.FailCounter end
             task.wait(0.5)
         end
     end)
 end
 
-ToggleSwitchButton.MouseButton1Click:Connect(function()
+TogB.MouseButton1Click:Connect(function()
     StateManager.IsRunning = not StateManager.IsRunning
-    
-    if StateManager.IsRunning then
-        StateManager.Blacklist = {}
-        TweenService:Create(ToggleSwitchButton, TweenInfo.new(0.2), {BackgroundColor3 = ColorTheme.PrimaryColor}):Play()
-        TweenService:Create(ToggleKnob, TweenInfo.new(0.2), {Position = UDim2.new(1, -22, 0.5, -10)}):Play()
-        AutoStealMainLoop()
-    else
-        TweenService:Create(ToggleSwitchButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 55, 80)}):Play()
-        TweenService:Create(ToggleKnob, TweenInfo.new(0.2), {Position = UDim2.new(0, 2, 0.5, -10)}):Play()
-    end
+    if StateManager.IsRunning then StateManager.Blacklist={}; TweenService:Create(TogB, TweenInfo.new(0.2), {BackgroundColor3=Themes[StateManager.Theme].Main}):Play(); TweenService:Create(Knob, TweenInfo.new(0.2), {Position=UDim2.new(1,-22,0.5,-10)}):Play(); Lp()
+    else TweenService:Create(TogB, TweenInfo.new(0.2), {BackgroundColor3=Color3.fromRGB(50,55,80)}):Play(); TweenService:Create(Knob, TweenInfo.new(0.2), {Position=UDim2.new(0,2,0.5,-10)}):Play() end
 end)
 
-ExpandArrowButton.MouseButton1Click:Connect(function()
-    StateManager.IsMenuExpanded = not StateManager.IsMenuExpanded
-    
-    if StateManager.IsMenuExpanded then
-        TweenService:Create(StealContentFrameInstance, TweenInfo.new(0.3), {Size = UDim2.new(1, -10, 0, 230)}):Play()
-        ExpandArrowButton.Text = "▼"
-    else
-        TweenService:Create(StealContentFrameInstance, TweenInfo.new(0.3), {Size = UDim2.new(1, -10, 0, 0)}):Play()
-        ExpandArrowButton.Text = "▲"
-    end
+AKT.MouseButton1Click:Connect(function()
+    StateManager.AntiKnockbackEnabled = not StateManager.AntiKnockbackEnabled
+    if StateManager.AntiKnockbackEnabled then TweenService:Create(AKT, TweenInfo.new(0.2), {BackgroundColor3=Themes[StateManager.Theme].Main}):Play(); TweenService:Create(AKK, TweenInfo.new(0.2), {Position=UDim2.new(1,-22,0.5,-10)}):Play()
+    else TweenService:Create(AKT, TweenInfo.new(0.2), {BackgroundColor3=Color3.fromRGB(50,55,80)}):Play(); TweenService:Create(AKK, TweenInfo.new(0.2), {Position=UDim2.new(0,2,0.5,-10)}):Play() end
+    if LocalPlayer.Character then ApplyAKB(LocalPlayer.Character) end
 end)
 
-MinimizeButton.MouseButton1Click:Connect(function()
-    if StateManager.IsMinimized then
-        return
-    end
-    
-    StateManager.IsMinimized = true
-    MainFrameInstance.Visible = false
-    
-    local MinimizedIconObject = CreateUIInstance("TextButton", {
-        Name = "MinimizedIcon",
-        Size = UDim2.new(0, 50, 0, 50),
-        Position = UDim2.new(0, 20, 0, 100),
-        BackgroundColor3 = ColorTheme.BackgroundCard,
-        Text = "H",
-        Font = Enum.Font.GothamBold,
-        TextColor3 = ColorTheme.PrimaryColor,
-        TextSize = 24,
-        ZIndex = 50
-    }, ScreenGuiInstance)
-    
-    ApplyUICorner(MinimizedIconObject, 12)
-    ApplyUIStroke(MinimizedIconObject, ColorTheme.PrimaryColor, 2, 0)
-    
-    MinimizedIconObject.MouseButton1Click:Connect(function()
-        StateManager.IsMinimized = false
-        MainFrameInstance.Visible = true
-        MinimizedIconObject:Destroy()
-    end)
+ArrB.MouseButton1Click:Connect(function()
+    StateManager.IsExpanded = not StateManager.IsExpanded
+    if StateManager.IsExpanded then TweenService:Create(Acc, TweenInfo.new(0.3), {Size=UDim2.new(1,-10,0,230)}):Play(); ArrB.Text="▼"
+    else TweenService:Create(Acc, TweenInfo.new(0.3), {Size=UDim2.new(1,-10,0,0)}):Play(); ArrB.Text="▲" end
 end)
 
-CloseButton.MouseButton1Click:Connect(function()
-    ScreenGuiInstance:Destroy()
+MinB.MouseButton1Click:Connect(function()
+    if StateManager.IsMinimized then return end; StateManager.IsMinimized = true; Main.Visible=false; Shadow.Visible=false
+    local I = Create("TextButton", {Size=UDim2.new(0,50,0,50), Position=UDim2.new(0,20,0,100), BackgroundColor3=Themes[StateManager.Theme].Bg1, Text="H", Font=Enum.Font.GothamBold, TextColor3=Themes[StateManager.Theme].Main, TextSize=24, ZIndex=50}, GUI); Corner(I, 12); Stroke(I, Themes[StateManager.Theme].Main, 2, 0)
+    I.MouseButton1Click:Connect(function() StateManager.IsMinimized=false; Main.Visible=true; Shadow.Visible=true; I:Destroy() end)
 end)
 
-local IsDraggingUI = false
-local DragStartInputPosition = nil
-local StartFramePositionValue = nil
+ClsB.MouseButton1Click:Connect(function() GUI:Destroy() end)
 
-TopBarFrameInstance.InputBegan:Connect(function(InputObject)
-    if InputObject.UserInputType == Enum.UserInputType.MouseButton1 or InputObject.UserInputType == Enum.UserInputType.Touch then
-        IsDraggingUI = true
-        DragStartInputPosition = InputObject.Position
-        StartFramePositionValue = MainFrameInstance.Position
-    end
-end)
-
-TopBarFrameInstance.InputEnded:Connect(function(InputObject)
-    if InputObject.UserInputType == Enum.UserInputType.MouseButton1 or InputObject.UserInputType == Enum.UserInputType.Touch then
-        IsDraggingUI = false
-    end
-end)
-
-UserInputService.InputChanged:Connect(function(InputObject)
-    if IsDraggingUI and (InputObject.UserInputType == Enum.UserInputType.MouseMovement or InputObject.UserInputType == Enum.UserInputType.Touch) then
-        local DragDelta = InputObject.Position - DragStartInputPosition
-        MainFrameInstance.Position = UDim2.new(
-            StartFramePositionValue.X.Scale,
-            StartFramePositionValue.X.Offset + DragDelta.X,
-            StartFramePositionValue.Y.Scale,
-            StartFramePositionValue.Y.Offset + DragDelta.Y
-        )
-    end
-end)
+local dr, ds, sp
+Top.InputBegan:Connect(function(i) if i.UserInputType==Enum.UserInputType.MouseButton1 or i.UserInputType==Enum.UserInputType.Touch then dr=true; ds=i.Position; sp=Main.Position end end)
+Top.InputEnded:Connect(function(i) if i.UserInputType==Enum.UserInputType.MouseButton1 or i.UserInputType==Enum.UserInputType.Touch then dr=false end end)
+UserInputService.InputChanged:Connect(function(i) if dr and (i.UserInputType==Enum.UserInputType.MouseMovement or i.UserInputType==Enum.UserInputType.Touch) then local d=i.Position-ds; Main.Position=UDim2.new(sp.X.Scale,sp.X.Offset+d.X,sp.Y.Scale,sp.Y.Offset+d.Y); Shadow.Position=UDim2.new(sp.X.Scale,sp.X.Offset+d.X-10,sp.Y.Scale,sp.Y.Offset+d.Y-10) end end)
