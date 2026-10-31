@@ -9,7 +9,7 @@ local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
 local Configuration = {
     HubName = "Hanssyz Sc",
-    HubVersion = "v14.0",
+    HubVersion = "v24.0",
     StealToolName = "Burrowing Owl Egg (Tool)", 
     TriggerFolderName = "ToolTrigger",
     TriggerEventName = "Trigger",
@@ -29,7 +29,8 @@ local StateManager = {
     SelectedRarity = "All Rarity",
     SelectedZone = "All Zone",
     IsMenuExpanded = true,
-    SafeZonePosition = CFrame.new(0, 10, 0)
+    SafeZonePosition = CFrame.new(0, 10, 0),
+    Blacklist = {}
 }
 
 local ColorTheme = {
@@ -227,7 +228,8 @@ local StealContentFrameInstance = CreateUIInstance("Frame", {
     Name = "StealContentFrame",
     Size = UDim2.new(1, -10, 0, 230),
     Position = UDim2.new(0, 0, 0, 50),
-    BackgroundTransparency = 1
+    BackgroundTransparency = 1,
+    ClipsDescendants = true
 }, ScrollingFrameInstance)
 
 local RarityLabel = CreateUIInstance("TextLabel", {
@@ -386,6 +388,15 @@ CreateDropdownMenuSystem(ZoneDropdownButton, {"All Zone", "Forest", "Lake", "Des
     StateManager.SelectedZone = SelectedValue
 end)
 
+local function IsStolen(EggObject)
+    for _, StolenObject in pairs(StateManager.Blacklist) do
+        if StolenObject == EggObject then
+            return true
+        end
+    end
+    return false
+end
+
 local function FindClosestValidEgg()
     local CharacterObject = LocalPlayer.Character
     if not CharacterObject or not CharacterObject:FindFirstChild("HumanoidRootPart") then
@@ -397,13 +408,17 @@ local function FindClosestValidEgg()
     local MinimumDistanceValue = math.huge
 
     for _, WorkspaceDescendant in pairs(workspace:GetDescendants()) do
-        if WorkspaceDescendant.Name:lower():find("egg") and (WorkspaceDescendant.Name:lower():find("firstareaegg") or WorkspaceDescendant.Name:lower():find("spawnedegg")) then
+        if WorkspaceDescendant.Name:lower():find("egg") and (WorkspaceDescendant:IsA("Model") or WorkspaceDescendant:IsA("BasePart")) then
             
             if StateManager.SelectedRarity ~= "All Rarity" and not WorkspaceDescendant.Name:lower():find(StateManager.SelectedRarity:lower()) then
                 continue
             end
             
             if StateManager.SelectedZone ~= "All Zone" and not WorkspaceDescendant.Name:lower():find(StateManager.SelectedZone:lower()) then
+                continue
+            end
+
+            if IsStolen(WorkspaceDescendant) then
                 continue
             end
             
@@ -471,6 +486,10 @@ local function ExecuteAutoStealSequence()
         task.wait(Configuration.DelayAfterSafeZone)
     end)
     
+    if SequenceSuccess then
+        table.insert(StateManager.Blacklist, TargetEggObject)
+    end
+    
     return SequenceSuccess
 end
 
@@ -496,6 +515,7 @@ ToggleSwitchButton.MouseButton1Click:Connect(function()
     StateManager.IsRunning = not StateManager.IsRunning
     
     if StateManager.IsRunning then
+        StateManager.Blacklist = {}
         TweenService:Create(ToggleSwitchButton, TweenInfo.new(0.2), {BackgroundColor3 = ColorTheme.PrimaryColor}):Play()
         TweenService:Create(ToggleKnob, TweenInfo.new(0.2), {Position = UDim2.new(1, -22, 0.5, -10)}):Play()
         AutoStealMainLoop()
