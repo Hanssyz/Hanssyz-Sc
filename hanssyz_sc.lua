@@ -41,10 +41,10 @@ end
 
 local function f2()
   if readfile and isfile then
-    local v1, v2 = pcall(isfile, "Flyers_config_v2.txt")
+    local v1, v2 = pcall(isfile, "dreyvid_config_v2.txt")
 
     if v1 and v2 then
-      local v3, v4 = pcall(readfile, "Flyers_config_v2.txt")
+      local v3, v4 = pcall(readfile, "dreyvid_config_v2.txt")
 
       if v3 and v4 then
         local v5 = tonumber(v4)
@@ -67,7 +67,7 @@ end
 
 local function f3(p2)
   if writefile then
-    pcall(function() writefile("Flyers_config_v2.txt", tostring(p2)) end)
+    pcall(function() writefile("dreyvid_config_v2.txt", tostring(p2)) end)
   end
 end
 
@@ -607,25 +607,25 @@ do
     return frame4
   end
 
-  if playerGui:FindFirstChild("FlyersHub") then
-    playerGui.FlyersHub:Destroy()
+  if playerGui:FindFirstChild("DreyvidHub") then
+    playerGui.DreyvidHub:Destroy()
   end
 
-  if playerGui:FindFirstChild("FlyersIntro") then
-    playerGui.FlyersIntro:Destroy()
+  if playerGui:FindFirstChild("DreyvidIntro") then
+    playerGui.DreyvidIntro:Destroy()
   end
 
-  if playerGui:FindFirstChild("FlyersKey") then
-    playerGui.FlyersKey:Destroy()
+  if playerGui:FindFirstChild("DreyvidKey") then
+    playerGui.DreyvidKey:Destroy()
   end
 
   local function makeTextLabel(p16)
-    local FlyersIntro = Instance.new("ScreenGui")
-    FlyersIntro.Name = "FlyersIntro"
-    FlyersIntro.ResetOnSpawn = false
-    FlyersIntro.IgnoreGuiInset = true
-    FlyersIntro.DisplayOrder = 998
-    FlyersIntro.Parent = playerGui
+    local dreyvidIntro = Instance.new("ScreenGui")
+    dreyvidIntro.Name = "DreyvidIntro"
+    dreyvidIntro.ResetOnSpawn = false
+    dreyvidIntro.IgnoreGuiInset = true
+    dreyvidIntro.DisplayOrder = 998
+    dreyvidIntro.Parent = playerGui
 
     local frame5 = Instance.new("Frame")
     frame5.Size = UDim2.new(1, 0, 1, 0)
@@ -633,7 +633,7 @@ do
     frame5.BackgroundTransparency = 1
     frame5.BorderSizePixel = 0
     frame5.ZIndex = 150
-    frame5.Parent = FlyersIntro
+    frame5.Parent = dreyvidIntro
 
     local uiGradient2 = Instance.new("UIGradient")
 
@@ -666,14 +666,14 @@ do
       frame6.BackgroundTransparency = 0.5
       frame6.BorderSizePixel = 0
       frame6.ZIndex = 160
-      frame6.Parent = FlyersIntro
+      frame6.Parent = dreyvidIntro
 
       local uiCorner3 = Instance.new("UICorner")
       uiCorner3.CornerRadius = UDim.new(1, 0)
       uiCorner3.Parent = frame6
 
       task.spawn(function()
-        while FlyersIntro.Parent do
+        while dreyvidIntro.Parent do
           local v28 = math.random(2, 98) / 100
           local v29 = math.random(34, 62) / 10
 
@@ -695,7 +695,7 @@ do
     frame7.Position = UDim2.new(0.5, -280, 0.5, -175)
     frame7.BackgroundTransparency = 1
     frame7.ZIndex = 200
-    frame7.Parent = FlyersIntro
+    frame7.Parent = dreyvidIntro
 
     local v30, v31 = makeFrame(frame7, 420, 150, 0, -26, 198)
     v30.BackgroundTransparency = 1
@@ -781,7 +781,7 @@ do
     textLabel.Position = UDim2.new(0, 0, 0, 104)
     textLabel.BackgroundTransparency = 1
     textLabel.RichText = true
-    textLabel.Text = "Flyers Hub <font color='#96CDFF' size='28'> V3</font>"
+    textLabel.Text = "Dreyvid Hub <font color='#96CDFF' size='28'> V3</font>"
     textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
     textLabel.Font = Enum.Font.GothamBold
     textLabel.TextSize = 50
@@ -905,7 +905,7 @@ do
     textLabel6.Parent = frame7
 
     task.spawn(function()
-      while FlyersIntro.Parent do
+      while dreyvidIntro.Parent do
         tweenService:Create(v30, TweenInfo.new(
           1.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
         ), {
@@ -927,7 +927,7 @@ do
     end)
 
     task.spawn(function()
-      while FlyersIntro.Parent do
+      while dreyvidIntro.Parent do
         tweenService:Create(v32, TweenInfo.new(
           1.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
         ), {
@@ -949,7 +949,7 @@ do
     end)
 
     task.spawn(function()
-      while FlyersIntro.Parent do
+      while dreyvidIntro.Parent do
         tweenService:Create(v34, TweenInfo.new(
           1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
         ), {
@@ -971,7 +971,7 @@ do
     end)
 
     task.spawn(function()
-      while FlyersIntro.Parent do
+      while dreyvidIntro.Parent do
         tweenService:Create(v31, TweenInfo.new(3, Enum.EasingStyle.Linear), {
           Rotation = 405,
         }):Play()
@@ -981,7 +981,7 @@ do
     end)
 
     task.spawn(function()
-      while FlyersIntro.Parent do
+      while dreyvidIntro.Parent do
         tweenService:Create(v33, TweenInfo.new(2.4, Enum.EasingStyle.Linear), {
           Rotation = -315,
         }):Play()
@@ -991,7 +991,7 @@ do
     end)
 
     task.spawn(function()
-      while FlyersIntro.Parent do
+      while dreyvidIntro.Parent do
         tweenService:Create(uiStroke, TweenInfo.new(
           1.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
         ), { Transparency = 0, Thickness = 2 }):Play()
@@ -1013,7 +1013,7 @@ do
     task.spawn(function()
       local count2 = 0
 
-      while FlyersIntro.Parent do
+      while dreyvidIntro.Parent do
         count2 = count2 + 1
 
         tweenService:Create(uiGradient4, TweenInfo.new(1.6, Enum.EasingStyle.Linear), {
@@ -1025,7 +1025,7 @@ do
     end)
 
     task.spawn(function()
-      while FlyersIntro.Parent do
+      while dreyvidIntro.Parent do
         for index11, value16 in ipairs({ v35, v36 }) do
           tweenService:Create(value16, TweenInfo.new(
             1.3, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
@@ -1062,7 +1062,7 @@ do
     end)
 
     task.spawn(function()
-      while FlyersIntro.Parent do
+      while dreyvidIntro.Parent do
         tweenService:Create(v39, TweenInfo.new(
           2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
         ), { Rotation = 38, BackgroundTransparency = 0.2 }):Play()
@@ -1129,7 +1129,7 @@ do
         { texto = "Preparando módulos", avance = 0.84, espera = 0.08 },
         { texto = "Listo. Abriendo panel", avance = 1, espera = 0.08 },
       }) do
-        if not FlyersIntro.Parent then
+        if not dreyvidIntro.Parent then
           return
         end
 
@@ -1145,7 +1145,7 @@ do
 
       task.wait(0.03)
 
-      if not FlyersIntro.Parent then
+      if not dreyvidIntro.Parent then
         return
       end
 
@@ -1195,7 +1195,7 @@ do
       end
 
       task.wait(0.15)
-      FlyersIntro:Destroy()
+      dreyvidIntro:Destroy()
 
       if p16 then
         p16()
@@ -1207,29 +1207,29 @@ do
     local function f22(text)
       pcall(function()
         if writefile then
-          writefile("FlyersHub_Key.txt", text)
+          writefile("DreyvidHub_Key.txt", text)
         end
       end)
     end
 
     local function f23()
-      local FlyersHubKeyTxt
+      local dreyvidHubKeyTxt
 
       pcall(function()
-        if readfile and isfile and isfile("FlyersHub_Key.txt") then
-          FlyersHubKeyTxt = readfile("FlyersHub_Key.txt")
+        if readfile and isfile and isfile("DreyvidHub_Key.txt") then
+          dreyvidHubKeyTxt = readfile("DreyvidHub_Key.txt")
         end
       end)
 
-      return FlyersHubKeyTxt
+      return dreyvidHubKeyTxt
     end
 
-    local FlyersKey = Instance.new("ScreenGui")
-    FlyersKey.Name = "FlyersKey"
-    FlyersKey.ResetOnSpawn = false
-    FlyersKey.IgnoreGuiInset = true
-    FlyersKey.DisplayOrder = 999
-    FlyersKey.Parent = playerGui
+    local dreyvidKey = Instance.new("ScreenGui")
+    dreyvidKey.Name = "DreyvidKey"
+    dreyvidKey.ResetOnSpawn = false
+    dreyvidKey.IgnoreGuiInset = true
+    dreyvidKey.DisplayOrder = 999
+    dreyvidKey.Parent = playerGui
 
     local frame12 = Instance.new("Frame")
     frame12.Size = UDim2.new(1, 0, 1, 0)
@@ -1237,7 +1237,7 @@ do
     frame12.BackgroundTransparency = 0.35
     frame12.BorderSizePixel = 0
     frame12.ZIndex = 1
-    frame12.Parent = FlyersKey
+    frame12.Parent = dreyvidKey
 
     local frame13 = Instance.new("Frame")
     frame13.Size = UDim2.new(0, 260, 0, 130)
@@ -1248,7 +1248,7 @@ do
     frame13.Active = true
     frame13.Draggable = true
     frame13.ZIndex = 2
-    frame13.Parent = FlyersKey
+    frame13.Parent = dreyvidKey
 
     local uiScale = Instance.new("UIScale")
     uiScale.Scale = 1.3
@@ -1270,7 +1270,7 @@ do
     uiGradient6.Parent = frame13
 
     task.spawn(function()
-      while FlyersKey.Parent do
+      while dreyvidKey.Parent do
         tweenService:Create(uiStroke4, TweenInfo.new(
           1.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
         ), {
@@ -1298,7 +1298,7 @@ do
     textLabel7.Position = UDim2.new(0, 0, 0, 10)
     textLabel7.BackgroundTransparency = 1
     textLabel7.RichText = true
-    textLabel7.Text = "Flyers Hub <font color='#96CDFF' size='13'> V3</font>"
+    textLabel7.Text = "Dreyvid Hub <font color='#96CDFF' size='13'> V3</font>"
     textLabel7.TextColor3 = Color3.fromRGB(240, 244, 255)
     textLabel7.Font = Enum.Font.GothamBold
     textLabel7.TextSize = 18
@@ -1449,7 +1449,7 @@ do
 
         f22(text2)
         task.wait(0.5)
-        FlyersKey:Destroy()
+        dreyvidKey:Destroy()
 
         if p21 then
           p21()
@@ -1517,7 +1517,7 @@ do
     frame14.Draggable = true
     frame14.Visible = false
     frame14.ZIndex = 10
-    frame14.Parent = FlyersKey
+    frame14.Parent = dreyvidKey
 
     local uiScale2 = Instance.new("UIScale")
     uiScale2.Scale = 1.3
@@ -1795,7 +1795,7 @@ do
   local connect3
 
   local function makeTextButton2()
-    local FlyersHub, v42, frame19, frame21, frame22, uiStroke11, uiStroke12, frame23,
+    local dreyvidHub, v42, frame19, frame21, frame22, uiStroke11, uiStroke12, frame23,
       textButton6, textButton7, uiStroke15, uiScale3, frame24, frame25, uiStroke16,
       uiGradient11, frame26, textButton8, uiStroke17, uiScale4, frame27, frame28, textButton9,
       btn, stroke, btn2, stroke2, btn3, stroke3, btn4, stroke4, btn5, stroke5, frame32, frame33,
@@ -1803,14 +1803,14 @@ do
       uiScale6, frame45, frame46, frame47, frame48, textButton13, textButton14, textBox2,
       textButton15, frame50, textButton17, frame52, frame54, textLabel44
 
-    if playerGui:FindFirstChild("FlyersHub") then
-      playerGui.FlyersHub:Destroy()
+    if playerGui:FindFirstChild("DreyvidHub") then
+      playerGui.DreyvidHub:Destroy()
     end
 
-    FlyersHub = Instance.new("ScreenGui")
-    FlyersHub.Name = "FlyersHub"
-    FlyersHub.ResetOnSpawn = false
-    FlyersHub.Parent = playerGui
+    dreyvidHub = Instance.new("ScreenGui")
+    dreyvidHub.Name = "DreyvidHub"
+    dreyvidHub.ResetOnSpawn = false
+    dreyvidHub.Parent = playerGui
 
     v42 = f2()
 
@@ -1819,7 +1819,7 @@ do
     frame19.Position = UDim2.new(0.5, -72, 0, 4)
     frame19.BackgroundTransparency = 1
     frame19.ZIndex = 5
-    frame19.Parent = FlyersHub
+    frame19.Parent = dreyvidHub
 
     do
       local frame20 = Instance.new("Frame")
@@ -1838,7 +1838,7 @@ do
       local textLabel14 = Instance.new("TextLabel")
       textLabel14.Size = UDim2.new(1, 0, 1, 0)
       textLabel14.BackgroundTransparency = 1
-      textLabel14.Text = "Flyers Hub"
+      textLabel14.Text = "Dreyvid Hub"
       textLabel14.TextColor3 = Color3.fromRGB(240, 244, 255)
       textLabel14.Font = Enum.Font.GothamBold
       textLabel14.TextSize = 18
@@ -1856,7 +1856,7 @@ do
       frame21.BackgroundTransparency = 0.5
       frame21.BorderSizePixel = 0
       frame21.ZIndex = 1
-      frame21.Parent = FlyersHub
+      frame21.Parent = dreyvidHub
 
       local uiCorner20 = Instance.new("UICorner")
       uiCorner20.CornerRadius = UDim.new(0, 16)
@@ -1874,7 +1874,7 @@ do
       frame22.Active = true
       frame22.Draggable = true
       frame22.ZIndex = 2
-      frame22.Parent = FlyersHub
+      frame22.Parent = dreyvidHub
 
       local uiCorner21 = Instance.new("UICorner")
       uiCorner21.CornerRadius = UDim.new(0, 14)
@@ -2038,7 +2038,7 @@ do
     uiStroke15.Parent = textButton7
 
     task.spawn(function()
-      while FlyersHub.Parent do
+      while dreyvidHub.Parent do
         tweenService:Create(uiStroke11, TweenInfo.new(
           1.8, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
         ), {
@@ -2062,7 +2062,7 @@ do
     end)
 
     task.spawn(function()
-      while FlyersHub.Parent do
+      while dreyvidHub.Parent do
         tweenService:Create(uiStroke12, TweenInfo.new(
           1.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
         ), {
@@ -2086,7 +2086,7 @@ do
     end)
 
     task.spawn(function()
-      while FlyersHub.Parent do
+      while dreyvidHub.Parent do
         tweenService:Create(frame23, TweenInfo.new(
           0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
         ), {
@@ -2121,7 +2121,7 @@ do
       frame24.BorderSizePixel = 0
       frame24.ZIndex = 1
       frame24.Visible = false
-      frame24.Parent = FlyersHub
+      frame24.Parent = dreyvidHub
 
       local uiCorner27 = Instance.new("UICorner")
       uiCorner27.CornerRadius = UDim.new(0, 16)
@@ -2140,7 +2140,7 @@ do
       frame25.Draggable = true
       frame25.ZIndex = 2
       frame25.Visible = false
-      frame25.Parent = FlyersHub
+      frame25.Parent = dreyvidHub
 
       local uiCorner28 = Instance.new("UICorner")
       uiCorner28.CornerRadius = UDim.new(0, 14)
@@ -2250,7 +2250,7 @@ do
     uiStroke17.Parent = textButton8
 
     task.spawn(function()
-      while FlyersHub.Parent do
+      while dreyvidHub.Parent do
         tweenService:Create(uiStroke16, TweenInfo.new(
           1.8, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut
         ), {
@@ -2276,7 +2276,7 @@ do
     task.spawn(function()
       local v43 = 0
 
-      while FlyersHub.Parent do
+      while dreyvidHub.Parent do
         v43 = v43 + 1
 
         tweenService:Create(uiGradient11, TweenInfo.new(2, Enum.EasingStyle.Linear), {
@@ -2304,7 +2304,7 @@ do
       frame27.BorderSizePixel = 0
       frame27.Visible = false
       frame27.ZIndex = 100
-      frame27.Parent = FlyersHub
+      frame27.Parent = dreyvidHub
 
       local uiCorner31 = Instance.new("UICorner")
       uiCorner31.CornerRadius = UDim.new(0, 14)
@@ -2405,7 +2405,7 @@ do
       textLabel21.Size = UDim2.new(1, -100, 0, 12)
       textLabel21.Position = UDim2.new(0, 50, 0, 25)
       textLabel21.BackgroundTransparency = 1
-      textLabel21.Text = "Flyers · v3"
+      textLabel21.Text = "DREYVID · v3"
       textLabel21.TextColor3 = Color3.fromRGB(110, 120, 150)
       textLabel21.Font = Enum.Font.GothamMedium
       textLabel21.TextSize = 9
@@ -3421,7 +3421,7 @@ do
       textLabel41.Size = UDim2.new(1, 0, 0, 22)
       textLabel41.Position = UDim2.new(0, 0, 0, 60)
       textLabel41.BackgroundTransparency = 1
-      textLabel41.Text = "Flyers Hub"
+      textLabel41.Text = "Dreyvid Hub"
       textLabel41.TextColor3 = Color3.fromRGB(240, 244, 255)
       textLabel41.Font = Enum.Font.GothamBold
       textLabel41.TextSize = 16
@@ -3685,7 +3685,7 @@ do
 
     do
       frame54.BackgroundTransparency = 1
-      frame54.Parent = FlyersHub
+      frame54.Parent = dreyvidHub
 
       local uiListLayout2 = Instance.new("UIListLayout")
       uiListLayout2.FillDirection = Enum.FillDirection.Horizontal
@@ -3744,7 +3744,7 @@ do
       local v62 = 0
 
       task.spawn(function()
-        while FlyersHub.Parent do
+        while dreyvidHub.Parent do
           task.wait(1)
           local v63 = math.floor(v61 / v62 + 0.5)
           v61 = 0
@@ -3762,7 +3762,7 @@ do
       end)
 
       runService.RenderStepped:Connect(function(delta)
-        if not FlyersHub.Parent then
+        if not dreyvidHub.Parent then
           return
         end
 
@@ -3771,7 +3771,7 @@ do
       end)
 
       task.spawn(function()
-        while FlyersHub.Parent do
+        while dreyvidHub.Parent do
           task.wait(1)
 
           local v64, v65 = pcall(function()
@@ -4080,1456 +4080,4 @@ end
 
 do
   local screenGui = Instance.new("ScreenGui")
-  screenGui.Name = "SpeedPanel_" .. tostring(math.random(100000, 999999))
-  screenGui.ResetOnSpawn = false
-  screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-  screenGui.IgnoreGuiInset = true
-  screenGui.DisplayOrder = 100
-  screenGui.Parent = localPlayer2:WaitForChild("PlayerGui")
-
-  speedPanel = Instance.new("Frame")
-  speedPanel.Name = "SpeedPanel"
-  speedPanel.Size = UDim2.fromOffset(212, 122)
-  speedPanel.AnchorPoint = Vector2.new(1, 1)
-  speedPanel.Position = UDim2.new(1, -14, 1, -14)
-  speedPanel.BackgroundColor3 = v67.BgMain
-  speedPanel.BorderSizePixel = 0
-  speedPanel.Active = false
-  speedPanel.Draggable = false
-  speedPanel.ClipsDescendants = true
-  speedPanel.Parent = screenGui
-end
-
-do
-  f36(speedPanel, 6)
-  f35(speedPanel, v67.Stroke, 1, 0.25)
-
-  local uiScale7 = Instance.new("UIScale")
-  uiScale7.Scale = 0.78
-  uiScale7.Parent = speedPanel
-
-  header = Instance.new("Frame")
-  header.Name = "Header"
-  header.Size = UDim2.new(1, 0, 0, 26)
-  header.BackgroundColor3 = v67.BgHeader
-  header.BorderSizePixel = 0
-  header.Parent = speedPanel
-
-  f36(header, 6)
-end
-
-do
-  local frame57 = Instance.new("Frame")
-  frame57.Size = UDim2.new(1, 0, 0, 8)
-  frame57.Position = UDim2.new(0, 0, 1, -8)
-  frame57.BackgroundColor3 = v67.BgHeader
-  frame57.BorderSizePixel = 0
-  frame57.Parent = header
-
-  local textLabel46 = Instance.new("TextLabel")
-  textLabel46.Size = UDim2.new(1, -30, 1, 0)
-  textLabel46.Position = UDim2.new(0, 12, 0, 0)
-  textLabel46.BackgroundTransparency = 1
-  textLabel46.Font = Enum.Font.GothamBold
-  textLabel46.Text = "SPEED"
-  textLabel46.TextSize = 13
-  textLabel46.TextColor3 = v67.TextHeader
-  textLabel46.TextXAlignment = Enum.TextXAlignment.Left
-  textLabel46.Parent = header
-end
-
-arrow = Instance.new("TextButton")
-arrow.Name = "Arrow"
-arrow.Size = UDim2.fromOffset(24, 24)
-arrow.Position = UDim2.new(1, -28, 0.5, -12)
-arrow.BackgroundTransparency = 1
-arrow.Font = Enum.Font.GothamBold
-arrow.Text = "▼"
-arrow.TextSize = 11
-arrow.TextColor3 = v67.TextArrow
-arrow.AutoButtonColor = false
-arrow.Parent = header
-
-content = Instance.new("Frame")
-
-do
-  content.Name = "Content"
-  content.Size = UDim2.new(1, 0, 1, -26)
-  content.Position = UDim2.new(0, 0, 0, 26)
-  content.BackgroundTransparency = 1
-  content.ClipsDescendants = false
-  content.Parent = speedPanel
-
-  local frame58 = Instance.new("Frame")
-  frame58.Size = UDim2.new(1, -12, 0, 28)
-  frame58.Position = UDim2.new(0, 6, 0, 8)
-  frame58.BackgroundColor3 = v67.BgRow
-  frame58.BorderSizePixel = 0
-  frame58.Parent = content
-
-  f36(frame58, 4)
-
-  local textLabel47 = Instance.new("TextLabel")
-  textLabel47.Size = UDim2.new(1, -60, 1, 0)
-  textLabel47.Position = UDim2.new(0, 8, 0, 0)
-  textLabel47.BackgroundTransparency = 1
-  textLabel47.Font = Enum.Font.GothamBold
-  textLabel47.Text = "[Q]  Speed Boost"
-  textLabel47.TextSize = 12
-  textLabel47.TextColor3 = v67.TextMain
-  textLabel47.TextXAlignment = Enum.TextXAlignment.Left
-  textLabel47.Parent = frame58
-
-  textButton18 = Instance.new("TextButton")
-  textButton18.Size = UDim2.fromOffset(40, 20)
-  textButton18.Position = UDim2.new(1, -46, 0.5, -10)
-  textButton18.BackgroundColor3 = v67.Grey
-  textButton18.BorderSizePixel = 0
-  textButton18.Text = ""
-  textButton18.AutoButtonColor = false
-  textButton18.Parent = frame58
-end
-
-f34(textButton18)
-
-frame59 = Instance.new("Frame")
-frame59.Size = UDim2.fromOffset(16, 16)
-frame59.Position = UDim2.new(0, 2, 0.5, -8)
-frame59.BackgroundColor3 = v67.White
-frame59.BorderSizePixel = 0
-frame59.Parent = textButton18
-
-f34(frame59)
-
-frame60 = Instance.new("Frame")
-frame60.Size = UDim2.new(1, -12, 0, 46)
-frame60.Position = UDim2.new(0, 6, 0, 42)
-frame60.BackgroundColor3 = v67.BgRow
-
-do
-  frame60.BorderSizePixel = 0
-  frame60.Parent = content
-
-  f36(frame60, 4)
-
-  local textLabel48 = Instance.new("TextLabel")
-  textLabel48.Size = UDim2.new(1, -70, 0, 18)
-  textLabel48.Position = UDim2.new(0, 8, 0, 4)
-  textLabel48.BackgroundTransparency = 1
-  textLabel48.Font = Enum.Font.GothamBold
-  textLabel48.Text = "Boost Speed"
-  textLabel48.TextSize = 12
-  textLabel48.TextColor3 = v67.TextMain
-  textLabel48.TextXAlignment = Enum.TextXAlignment.Left
-  textLabel48.Parent = frame60
-end
-
-textLabel49 = Instance.new("TextLabel")
-textLabel49.Size = UDim2.fromOffset(52, 18)
-textLabel49.Position = UDim2.new(1, -60, 0, 4)
-textLabel49.BackgroundColor3 = v67.BgDark
-textLabel49.BorderSizePixel = 0
-textLabel49.Font = Enum.Font.GothamBold
-textLabel49.Text = tostring(v68)
-textLabel49.TextSize = 12
-textLabel49.TextColor3 = v67.TextMain
-textLabel49.Parent = frame60
-
-f36(textLabel49, 3)
-frame61 = Instance.new("Frame")
-
-do
-  frame61.Size = UDim2.new(1, -16, 0, 12)
-  frame61.Position = UDim2.new(0, 8, 1, -18)
-  frame61.BackgroundColor3 = v67.BgDark
-  frame61.BorderSizePixel = 0
-  frame61.Parent = frame60
-
-  f36(frame61, 3)
-  f35(frame61, v67.StrokeTrack, 1, 0.4)
-
-  local frame62 = Instance.new("Frame")
-  frame62.Size = UDim2.new(math.clamp((v68 - 16) / 984, 0, 1), 0, 1, 0)
-  frame62.BackgroundColor3 = v67.Green
-  frame62.BorderSizePixel = 0
-  frame62.Parent = frame61
-
-  f36(frame62, 3)
-
-  local frame63 = Instance.new("Frame")
-  frame63.Size = UDim2.fromOffset(14, 14)
-  frame63.AnchorPoint = Vector2.new(0.5, 0.5)
-  frame63.Position = UDim2.new(frame62.Size.X.Scale, 0, 0.5, 0)
-  frame63.BackgroundColor3 = v67.White
-  frame63.BorderSizePixel = 0
-  frame63.ZIndex = 3
-  frame63.Parent = frame61
-
-  f36(frame63, 3)
-
-  local textButton19 = Instance.new("TextButton")
-  textButton19.Size = UDim2.new(1, 0, 2, 0)
-  textButton19.Position = UDim2.new(0, 0, -0.5, 0)
-
-  local function f42()
-    textLabel49.Text = tostring(math.floor(v68))
-    local v78 = math.clamp((v68 - 16) / 984, 0, 1)
-    frame62.Size = UDim2.new(v78, 0, 1, 0)
-    frame63.Position = UDim2.new(v78, 0, 0.5, 0)
-  end
-
-  textButton19.BackgroundTransparency = 1
-  textButton19.Text = ""
-  textButton19.ZIndex = 5
-  textButton19.Parent = frame61
-
-  local v79 = false
-
-  local function f43(x4)
-    v68 = math.floor(16 + math.clamp(
-      (x4 - frame61.AbsolutePosition.X) / math.max(frame61.AbsoluteSize.X, 1), 0, 1
-    ) * 984)
-
-    f42()
-  end
-
-  textButton19.InputBegan:Connect(function(input4)
-    if input4.UserInputType == Enum.UserInputType.MouseButton1
-      or input4.UserInputType == Enum.UserInputType.Touch then
-      v79 = true
-      f43(input4.Position.X)
-    end
-  end)
-
-  userInputService.InputChanged:Connect(function(input5)
-    if v79
-      and (input5.UserInputType == Enum.UserInputType.MouseMovement
-        or input5.UserInputType == Enum.UserInputType.Touch) then
-      f43(input5.Position.X)
-    end
-  end)
-
-  userInputService.InputEnded:Connect(function(input6)
-    if input6.UserInputType == Enum.UserInputType.MouseButton1
-      or input6.UserInputType == Enum.UserInputType.Touch then
-      v79 = false
-    end
-  end)
-
-  local v80
-
-  local function f44()
-    if v80 then
-      return
-    end
-
-    v80 = task.spawn(function()
-      while v69 do
-        if not v70.Clone or v70.Clone.Parent ~= localPlayer2.Character then
-          f40()
-        end
-
-        task.wait(0.25)
-      end
-    end)
-  end
-
-  local function f45()
-    if v80 then
-      pcall(task.cancel, v80)
-      v80 = nil
-    end
-  end
-
-  local connect6
-
-  local function f46()
-    if connect6 then
-      return
-    end
-
-    connect6 = runService.Heartbeat:Connect(f41)
-    f40()
-    f44()
-  end
-
-  local f47
-
-  local function f48(p37)
-    v69 = p37
-
-    if p37 then
-      tweenService:Create(textButton18, TweenInfo.new(0.2), {
-        BackgroundColor3 = v67.Green,
-      }):Play()
-
-      tweenService:Create(frame59, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {
-        Position = UDim2.new(1, -18, 0.5, -8),
-      }):Play()
-
-      f46()
-    else
-      tweenService:Create(textButton18, TweenInfo.new(0.2), {
-        BackgroundColor3 = v67.Grey,
-      }):Play()
-
-      tweenService:Create(frame59, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {
-        Position = UDim2.new(0, 2, 0.5, -8),
-      }):Play()
-
-      f47()
-    end
-  end
-
-  function f47()
-    if connect6 then
-      connect6:Disconnect()
-      connect6 = nil
-    end
-
-    f45()
-    f38()
-    local v81, v82 = f37()
-
-    if v81 then
-      pcall(function() v81.AssemblyLinearVelocity = Vector3.zero end)
-    end
-  end
-
-  textButton18.MouseButton1Click:Connect(function() f48(not v69) end)
-  local v83 = false
-
-  local function f49(p38)
-    if v83 == p38 then
-      return
-    else
-      v83 = p38
-      local v84 = v83 and 26 or 122
-      arrow.Text = v83 and "▲" or "▼"
-      content.Visible = not v83
-
-      tweenService:Create(speedPanel, TweenInfo.new(
-        0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out
-      ), { Size = UDim2.fromOffset(212, v84) }):Play()
-
-      return
-    end
-  end
-
-  arrow.MouseButton1Click:Connect(function() f49(not v83) end)
-
-  localPlayer2.CharacterAdded:Connect(function()
-    if v69 then
-      task.wait(1)
-      f38()
-      f40()
-      f44()
-    end
-  end)
-
-  f42()
-end
-
-speedPanel.Position = UDim2.new(1, -14, 1, 26)
-
-tweenService:Create(
-  speedPanel, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
-  { Position = UDim2.new(1, -14, 1, -14) }
-):Play()
-
-print("[Speed] Quick Bar lista. Velocidad recomendada: 900")
-localPlayer3 = players.LocalPlayer
-local color3 = Color3.fromRGB(28, 42, 32)
-local color4 = Color3.fromRGB(36, 54, 40)
-local color5 = Color3.fromRGB(42, 60, 46)
-local color6 = Color3.fromRGB(52, 74, 58)
-local color7 = Color3.fromRGB(22, 34, 26)
-local color8 = Color3.fromRGB(70, 110, 90)
-local color9 = Color3.fromRGB(90, 180, 220)
-local color10 = Color3.fromRGB(100, 200, 240)
-local color11 = Color3.fromRGB(70, 150, 190)
-local color12 = Color3.fromRGB(80, 230, 130)
-local color13 = Color3.fromRGB(240, 245, 242)
-local color14 = Color3.fromRGB(160, 180, 170)
-local color15 = Color3.fromRGB(120, 140, 130)
-
-local function f50(parent4, p39)
-  local uiCorner64 = Instance.new("UICorner")
-  uiCorner64.CornerRadius = UDim.new(0, p39 or 8)
-  uiCorner64.Parent = parent4
-
-  return uiCorner64
-end
-
-v85 = {
-  BgPanel = color3,
-  BgHeader = color4,
-  BgRow = color5,
-  BgRowHover = color6,
-  BgInner = color7,
-  Stroke = color8,
-  StrokeHi = color9,
-  Cyan = color10,
-  CyanDim = color11,
-  Green = color12,
-  White = color13,
-  Grey = color14,
-  GreyDim = color15,
-}
-
-local function f51(parent5, color16, p40, p41)
-  local uiStroke34 = Instance.new("UIStroke")
-  uiStroke34.Color = color16
-  uiStroke34.Thickness = p40 or 1
-  uiStroke34.Transparency = p41 or 0
-  uiStroke34.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-  uiStroke34.Parent = parent5
-
-  return uiStroke34
-end
-
-screenGui2 = Instance.new("ScreenGui")
-screenGui2.Name = "StealAnEgg_" .. tostring(math.random(100000, 999999))
-screenGui2.ResetOnSpawn = false
-screenGui2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-screenGui2.IgnoreGuiInset = true
-screenGui2.Parent = localPlayer3:WaitForChild("PlayerGui")
-
-udim = UDim2.new(1, -62, 0, 14)
-
-miniSquare = Instance.new("Frame")
-miniSquare.Name = "MiniSquare"
-miniSquare.Size = UDim2.fromOffset(48, 48)
-miniSquare.Position = udim
-miniSquare.BackgroundColor3 = v85.BgPanel
-miniSquare.BorderSizePixel = 0
-miniSquare.Active = true
-miniSquare.Visible = true
-miniSquare.ZIndex = 20
-miniSquare.Parent = screenGui2
-
-f50(miniSquare, 10)
-f51(miniSquare, v85.StrokeHi, 1.5, 0.3)
-
-textButton20 = Instance.new("TextButton")
-textButton20.Size = UDim2.new(1, 0, 1, 0)
-textButton20.BackgroundTransparency = 1
-textButton20.Text = ""
-textButton20.AutoButtonColor = false
-
-do
-  textButton20.Parent = miniSquare
-  f50(textButton20, 10)
-
-  local icon = Instance.new("ImageLabel")
-  icon.Name = "Icon"
-  icon.Size = UDim2.new(1, -6, 1, -6)
-  icon.Position = UDim2.new(0, 3, 0, 3)
-  icon.BackgroundTransparency = 1
-  icon.Image = ""
-  icon.ScaleType = Enum.ScaleType.Fit
-  icon.Visible = false
-  icon.Parent = miniSquare
-
-  local textLabel50 = Instance.new("TextLabel")
-  textLabel50.Size = UDim2.new(1, 0, 1, 0)
-  textLabel50.BackgroundTransparency = 1
-  textLabel50.Font = Enum.Font.GothamBold
-  textLabel50.Text = "🥚"
-  textLabel50.TextSize = 22
-  textLabel50.TextColor3 = v85.Cyan
-  textLabel50.Visible = true
-  textLabel50.Parent = miniSquare
-end
-
-do
-  v86 = false
-  local position4, vector3
-
-  textButton20.InputBegan:Connect(function(input7)
-    if input7.UserInputType == Enum.UserInputType.MouseButton1
-      or input7.UserInputType == Enum.UserInputType.Touch then
-      v86 = false
-      position4 = miniSquare.Position
-      vector3 = Vector2.new(input7.Position.X, input7.Position.Y)
-    end
-  end)
-
-  userInputService.InputChanged:Connect(function(input8)
-    if not position4 then
-      return
-    end
-
-    if input8.UserInputType == Enum.UserInputType.MouseMovement
-      or input8.UserInputType == Enum.UserInputType.Touch then
-      local v87 = Vector2.new(input8.Position.X, input8.Position.Y) - vector3
-
-      if v87.Magnitude > 4 then
-        v86 = true
-      end
-
-      if v86 then
-        miniSquare.Position = UDim2.new(
-          position4.X.Scale, position4.X.Offset + v87.X, position4.Y.Scale,
-          position4.Y.Offset + v87.Y
-        )
-
-        if Panel.Visible then
-          Panel.Position = UDim2.new(
-            miniSquare.Position.X.Scale, miniSquare.Position.X.Offset - PANEL_W - 8,
-            miniSquare.Position.Y.Scale, miniSquare.Position.Y.Offset
-          )
-        end
-      end
-    end
-  end)
-
-  userInputService.InputEnded:Connect(function(input9)
-    if input9.UserInputType == Enum.UserInputType.MouseButton1
-      or input9.UserInputType == Enum.UserInputType.Touch then
-      position4 = nil
-      vector3 = nil
-    end
-  end)
-
-  mainPanel = Instance.new("Frame")
-  mainPanel.Name = "MainPanel"
-  mainPanel.Size = UDim2.fromOffset(255, 357)
-
-  mainPanel.Position = UDim2.new(
-    udim.X.Scale, udim.X.Offset - 255 - 8, udim.Y.Scale, udim.Y.Offset
-  )
-
-  mainPanel.BackgroundColor3 = v85.BgPanel
-  mainPanel.BorderSizePixel = 0
-  mainPanel.Active = true
-end
-
-mainPanel.ClipsDescendants = true
-mainPanel.Visible = false
-mainPanel.ZIndex = 15
-mainPanel.Parent = screenGui2
-
-f50(mainPanel, 10)
-f51(mainPanel, v85.Stroke, 1.5, 0.2)
-
-frame64 = Instance.new("Frame")
-frame64.Size = UDim2.new(1, 0, 0, 28)
-frame64.BackgroundColor3 = v85.BgHeader
-frame64.BorderSizePixel = 0
-frame64.Parent = mainPanel
-
-f50(frame64, 10)
-
-do
-  local frame65 = Instance.new("Frame")
-  frame65.Size = UDim2.new(1, 0, 0, 14)
-  frame65.Position = UDim2.new(0, 0, 1, -14)
-  frame65.BackgroundColor3 = v85.BgHeader
-  frame65.BorderSizePixel = 0
-  frame65.Parent = frame64
-
-  local textLabel51 = Instance.new("TextLabel")
-  textLabel51.Size = UDim2.new(1, -50, 1, 0)
-  textLabel51.Position = UDim2.new(0, 10, 0, 0)
-  textLabel51.BackgroundTransparency = 1
-  textLabel51.Font = Enum.Font.GothamBold
-  textLabel51.Text = "STEAL AN EGG"
-  textLabel51.TextSize = 11
-  textLabel51.TextColor3 = v85.Cyan
-  textLabel51.TextXAlignment = Enum.TextXAlignment.Left
-  textLabel51.Parent = frame64
-end
-
-textButton21 = Instance.new("TextButton")
-textButton21.Size = UDim2.fromOffset(20, 20)
-textButton21.Position = UDim2.new(1, -26, 0.5, -10)
-textButton21.BackgroundColor3 = v85.BgInner
-textButton21.BorderSizePixel = 0
-textButton21.Font = Enum.Font.GothamBold
-textButton21.Text = "▼"
-textButton21.TextSize = 10
-textButton21.TextColor3 = v85.Cyan
-textButton21.AutoButtonColor = false
-textButton21.Parent = frame64
-
-f50(textButton21, 10)
-
-do
-  f51(textButton21, v85.Stroke, 1, 0.4)
-
-  textLabel52 = Instance.new("TextLabel")
-  textLabel52.Size = UDim2.new(1, -14, 0, 18)
-  textLabel52.Position = UDim2.new(0, 7, 0, 32)
-  textLabel52.BackgroundTransparency = 1
-  textLabel52.Font = Enum.Font.Gotham
-  textLabel52.Text = "cargando..."
-  textLabel52.TextSize = 9
-  textLabel52.TextColor3 = v85.CyanDim
-  textLabel52.TextXAlignment = Enum.TextXAlignment.Left
-  textLabel52.Parent = mainPanel
-
-  local scrollingFrame = Instance.new("ScrollingFrame")
-  scrollingFrame.Size = UDim2.new(1, -14, 1, -60)
-  scrollingFrame.Position = UDim2.new(0, 7, 0, 52)
-  scrollingFrame.BackgroundTransparency = 1
-  scrollingFrame.BorderSizePixel = 0
-  scrollingFrame.ScrollBarThickness = 3
-  scrollingFrame.ScrollBarImageColor3 = v85.Stroke
-  scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-  scrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-  scrollingFrame.Parent = mainPanel
-
-  local uiListLayout3 = Instance.new("UIListLayout")
-  uiListLayout3.Padding = UDim.new(0, 4)
-  uiListLayout3.SortOrder = Enum.SortOrder.LayoutOrder
-  uiListLayout3.Parent = scrollingFrame
-end
-
-do
-  local function f52(uid)
-    local v88, v89 = pcall(function()
-      return require(replicatedStorage.Client.EggState).ReadFieldEggs()
-    end)
-
-    if not v88 or type(v89) ~= "table" then
-      return nil
-    end
-
-    for key3, value24 in pairs(v89.Records or v89) do
-      if type(value24) == "table" and tostring(value24.Uid) == tostring(uid) then
-        if typeof(value24.BottomCFrame) == "CFrame" then
-          return value24.BottomCFrame.Position, value24.State, value24.CarrierUserId
-        elseif typeof(value24.BottomCFrame) == "Vector3" then
-          return value24.BottomCFrame, value24.State, value24.CarrierUserId
-        end
-      end
-    end
-
-    return nil
-  end
-
-  pcall(function() local v90 = require(replicatedStorage.Data.Assets) end)
-  local v91 = { "110637848614810", "126476030340764" }
-
-  local v92 = {
-    Saved = nil,
-    Tracks = {},
-    AnimateScript = nil,
-    WasEnabled = true,
-  }
-
-  local function f53()
-    for index19, value25 in ipairs(v92.Tracks) do
-      local v93 = value25
-      pcall(function() v93:Stop(0.2) end)
-    end
-
-    table.clear(v92.Tracks)
-
-    if v92.AnimateScript and v92.AnimateScript.Parent then
-      pcall(function() v92.AnimateScript.Enabled = v92.WasEnabled end)
-    end
-
-    v92.AnimateScript = nil
-  end
-
-  local function makeAnimator()
-    local character9 = localPlayer3.Character
-    local animator3
-
-    if not character9 then
-      return
-    else
-      local humanoid6 = character9:FindFirstChildOfClass("Humanoid")
-
-      if not humanoid6 then
-        return
-      else
-        animator3 = humanoid6:FindFirstChildOfClass("Animator")
-
-        if not animator3 then
-          animator3 = Instance.new("Animator")
-          animator3.Parent = humanoid6
-        end
-
-        local animate3 = character9:FindFirstChild("Animate")
-
-        if animate3 and animate3:IsA("LocalScript") then
-          v92.AnimateScript = animate3
-          v92.WasEnabled = animate3.Enabled
-          animate3.Enabled = false
-        end
-
-        pcall(function()
-          for index20, value26 in ipairs(animator3:GetPlayingAnimationTracks()) do
-            value26:Stop(0.15)
-          end
-        end)
-
-        for index21, value27 in ipairs(v91) do
-          local animation2 = Instance.new("Animation")
-          animation2.AnimationId = "rbxassetid://" .. value27
-
-          local v94, v95 = pcall(function() return animator3:LoadAnimation(animation2) end)
-
-          if v94 and v95 then
-            v95.Priority = Enum.AnimationPriority.Action4
-            v95.Looped = true
-
-            pcall(function() v95:Play(0.2, 1, 1) end)
-            table.insert(v92.Tracks, v95)
-          end
-        end
-
-        return
-      end
-    end
-  end
-
-  local v96 = {
-    Uid = nil,
-    Name = nil,
-    Beam = nil,
-    AttachA = nil,
-    AttachB = nil,
-    Anchor = nil,
-    Highlight = nil,
-    CarryHighlight = nil,
-    LineFolder = nil,
-  }
-
-  v96.LineFolder = Instance.new("Folder")
-
-  local function f54()
-    if not mainPanel.Visible then
-      return
-    end
-
-    tweenService:Create(mainPanel, TweenInfo.new(
-      0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In
-    ), { Size = UDim2.fromOffset(0, 0) }):Play()
-
-    task.delay(0.25, function()
-      mainPanel.Visible = false
-      mainPanel.Size = UDim2.fromOffset(255, 357)
-    end)
-  end
-
-  v96.LineFolder.Name = "StealEgg_Line"
-  v96.LineFolder.Parent = workspace
-
-  local function f55(uid2)
-    if not uid2 then
-      return nil
-    else
-      local areaEggSlotsClient = workspace:FindFirstChild("AreaEggSlotsClient")
-
-      if areaEggSlotsClient then
-        local findFirstChild = areaEggSlotsClient:FindFirstChild(tostring(uid2))
-
-        if findFirstChild then
-          return findFirstChild
-        end
-      end
-
-      for index22, value28 in ipairs(workspace:GetDescendants()) do
-        if value28:IsA("Model") then
-          local uid3 = value28:GetAttribute("Uid")
-
-          local uid4 = uid3
-          uid4 = uid3 or value28:GetAttribute("UID")
-
-          if uid4 ~= nil and tostring(uid4) == tostring(uid2) then
-            return value28
-          end
-        end
-      end
-
-      return nil
-    end
-  end
-
-  local function f56()
-    if v96.Beam then
-      v96.Beam:Destroy()
-      v96.Beam = nil
-    end
-
-    if v96.AttachA then
-      v96.AttachA:Destroy()
-      v96.AttachA = nil
-    end
-
-    if v96.AttachB then
-      v96.AttachB:Destroy()
-      v96.AttachB = nil
-    end
-
-    if v96.Anchor then
-      v96.Anchor:Destroy()
-      v96.Anchor = nil
-    end
-
-    if v96.Highlight then
-      v96.Highlight:Destroy()
-      v96.Highlight = nil
-    end
-
-    if v96.CarryHighlight then
-      v96.CarryHighlight:Destroy()
-      v96.CarryHighlight = nil
-    end
-
-    v96.Uid = nil
-    v96.Name = nil
-
-    f53()
-  end
-
-  local function makeAttachment(uid5, name)
-    f56()
-
-    v96.Uid = uid5
-    v96.Name = name
-
-    local character10 = localPlayer3.Character
-    local humanoidRootPart3 = character10 and character10:FindFirstChild("HumanoidRootPart")
-
-    if not humanoidRootPart3 then
-      return
-    else
-      local position5 = f52(uid5)
-
-      if not position5 then
-        local v97 = f55(uid5)
-
-        if v97 then
-          local primaryPart = v97.PrimaryPart or v97:FindFirstChildWhichIsA("BasePart")
-
-          if primaryPart then
-            position5 = primaryPart.Position
-          end
-        end
-      end
-
-      if not position5 then
-        textLabel52.Text = "no encuentro " .. tostring(name)
-        return
-      else
-        makeAnimator()
-
-        local stealLineA = Instance.new("Attachment")
-        stealLineA.Name = "StealLine_A"
-        stealLineA.Parent = humanoidRootPart3
-
-        v96.AttachA = stealLineA
-
-        local stealLineAnchor = Instance.new("Part")
-        stealLineAnchor.Name = "StealLine_Anchor"
-        stealLineAnchor.Size = Vector3.new(0.5, 0.5, 0.5)
-        stealLineAnchor.Anchored = true
-        stealLineAnchor.CanCollide = false
-        stealLineAnchor.CanQuery = false
-        stealLineAnchor.CanTouch = false
-        stealLineAnchor.Transparency = 1
-        stealLineAnchor.Position = position5 + Vector3.new(0, 2, 0)
-        stealLineAnchor.Parent = v96.LineFolder
-
-        v96.Anchor = stealLineAnchor
-
-        local stealLineB = Instance.new("Attachment")
-        stealLineB.Name = "StealLine_B"
-        stealLineB.Parent = stealLineAnchor
-
-        v96.AttachB = stealLineB
-
-        local beam = Instance.new("Beam")
-        beam.Attachment0 = stealLineA
-        beam.Attachment1 = stealLineB
-        beam.Width0 = 0.2
-        beam.Width1 = 0.2
-        beam.FaceCamera = true
-        beam.LightEmission = 1
-        beam.LightInfluence = 0
-
-        beam.Transparency = NumberSequence.new({
-          NumberSequenceKeypoint.new(0, 0.15), NumberSequenceKeypoint.new(0.5, 0),
-          NumberSequenceKeypoint.new(1, 0.15),
-        })
-
-        beam.Color = ColorSequence.new(Color3.new(1, 1, 1))
-        beam.Parent = v96.LineFolder
-
-        v96.Beam = beam
-        local v98 = f55(uid5)
-
-        if v98 then
-          local highlight = Instance.new("Highlight")
-          highlight.Adornee = v98
-          highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-          highlight.FillTransparency = 0.3
-          highlight.OutlineTransparency = 0
-          highlight.FillColor = Color3.fromRGB(255, 255, 255)
-          highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-          highlight.Parent = v96.LineFolder
-
-          v96.Highlight = highlight
-        end
-
-        textLabel52.Text = "→ " .. tostring(name)
-        return
-      end
-    end
-  end
-
-  task.spawn(function()
-    while task.wait(0.1) do
-      if v96.Uid then
-        local position6, v99, v100 = f52(v96.Uid)
-
-        if not position6 then
-          local v101 = f55(v96.Uid)
-
-          if v101 then
-            local primaryPart2 = v101.PrimaryPart or v101:FindFirstChildWhichIsA("BasePart")
-
-            if primaryPart2 then
-              position6 = primaryPart2.Position
-            end
-          end
-        end
-
-        if position6 and v96.Anchor then
-          v96.Anchor.Position = position6 + Vector3.new(0, 2, 0)
-
-          if v96.Highlight then
-            local v102 = f55(v96.Uid)
-
-            if v102 and v96.Highlight.Adornee ~= v102 then
-              v96.Highlight.Adornee = v102
-            end
-          end
-        end
-
-        if v99 == "Carried" and v100 and v100 ~= localPlayer3.UserId then
-          f53()
-          local getPlayerByUserId = players:GetPlayerByUserId(v100)
-          local character11 = getPlayerByUserId and getPlayerByUserId.Character
-
-          if character11 then
-            if not v96.CarryHighlight or v96.CarryHighlight.Adornee ~= character11 then
-              if v96.CarryHighlight then
-                v96.CarryHighlight:Destroy()
-              end
-
-              local highlight2 = Instance.new("Highlight")
-              highlight2.Adornee = character11
-              highlight2.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-              highlight2.FillTransparency = 0.5
-              highlight2.OutlineTransparency = 0
-              highlight2.FillColor = Color3.fromRGB(255, 140, 40)
-              highlight2.OutlineColor = Color3.fromRGB(255, 200, 80)
-              highlight2.Parent = v96.LineFolder
-
-              v96.CarryHighlight = highlight2
-            end
-          end
-        elseif v96.CarryHighlight then
-          v96.CarryHighlight:Destroy()
-          v96.CarryHighlight = nil
-        end
-      end
-    end
-  end)
-
-  local v103 = 0
-
-  runService.Heartbeat:Connect(function(delta2)
-    if not v96.Uid then
-      return
-    end
-
-    v103 = (v103 + delta2 * 0.5) % 1
-
-    if v96.Beam then
-      local color17 = Color3.fromHSV(v103, 1, 1)
-      local color18 = Color3.fromHSV((v103 + 0.33) % 1, 1, 1)
-      local color19 = Color3.fromHSV((v103 + 0.66) % 1, 1, 1)
-
-      v96.Beam.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, color17), ColorSequenceKeypoint.new(0.5, color18),
-        ColorSequenceKeypoint.new(1, color19),
-      })
-    end
-
-    if v96.Highlight then
-      v96.Highlight.FillColor = Color3.fromHSV(v103, 1, 1)
-      v96.Highlight.OutlineColor = Color3.fromHSV((v103 + 0.5) % 1, 1, 1)
-    end
-  end)
-
-  local f57
-
-  local function f58()
-    if mainPanel.Visible then
-      return
-    end
-
-    f57()
-
-    mainPanel.Visible = true
-    mainPanel.Size = UDim2.fromOffset(0, 0)
-
-    tweenService:Create(mainPanel, TweenInfo.new(
-      0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out
-    ), { Size = UDim2.fromOffset(255, 357) }):Play()
-  end
-
-  function f57()
-    mainPanel.Position = UDim2.new(
-      miniSquare.Position.X.Scale, miniSquare.Position.X.Offset - 255 - 8,
-      miniSquare.Position.Y.Scale, miniSquare.Position.Y.Offset
-    )
-  end
-
-  local function f59()
-    if mainPanel.Visible then
-      f54()
-    else
-      f58()
-    end
-  end
-
-  textButton20.MouseButton1Click:Connect(function()
-    if v86 then
-      return
-    end
-
-    f59()
-  end)
-
-  textButton21.MouseButton1Click:Connect(function() f54() end)
-
-  task.spawn(function()
-    while true do
-      task.wait(3)
-    end
-  end)
-
-  localPlayer3.CharacterAdded:Connect(function()
-    task.wait(1)
-
-    if v96.Uid then
-      f56()
-      makeAttachment(v96.Uid, v96.Name)
-    end
-  end)
-end
-
-do
-  miniSquare.Visible = true
-  miniSquare.Position = udim
-
-  task.defer(function() task.wait(1) end)
-  print("✅ Steal An Egg cargado. Click en cuadrado = toggle panel.")
-  local localPlayer4 = players.LocalPlayer
-
-  local v104 = {
-    ScanInterval = 1,
-    MinimumEarning = 10000000,
-    HighTierMinimum = 500000000,
-    LowWebhook = "",
-    HighWebhook = "",
-    Over100Webhook = "",
-    Over100Minimum = 100000000,
-    WebhookName = "Flyers",
-    WebhookAvatar = "https://media.discordapp.net/attachments/1558526322517745724/1558917121310859424/Imagen_de_Codex_26_sept_2026_14_27_56.png?ex=6acd2e35&is=6acbdcb5&hm=b1c75760f6e62c6733cfd7eeadf92370bd79fd4dcfc344eab2b42b88266dec94&=&format=webp&quality=lossless&width=1024&height=1024",
-    FooterText = "Flyers",
-  }
-
-  local v105 = {
-    Kitsune = "https://images-ext-1.discordapp.net/external/PJE92wVQEi8SIgfBqWlxHfsyRohgcjQRP5MxAaH5R-4/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544967674126401556.png?format=webp&quality=lossless",
-    Pegasus = "https://images-ext-1.discordapp.net/external/9SDplquZA1vJtde17GhkAfdZ7T8XfbLIJC3IQAgsUHs/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1548394519354019922.png?format=webp&quality=lossless",
-    ["Skeleton Horse"] = "https://images-ext-1.discordapp.net/external/SVXTPsP1007hzL3YfDj2rLQWv-ynOdV9CI-jRz3eByA/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1548394526190870691.png?format=webp&quality=lossless",
-    ["Gorilla King"] = "https://images-ext-1.discordapp.net/external/5_Mgxu4xQTf8lHH6FUHigsvUgM_v5rq42L1u-MxHBmc/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544971698690850877.png?format=webp&quality=lossless",
-    Centaur = "https://images-ext-1.discordapp.net/external/YHza_1nSNtuHHHH2N-rEkZhqsQwNYwbPfIJSYgNDyzs/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1548396244127195309.png?format=webp&quality=lossless",
-    ["Pure Jellyfish"] = "https://images-ext-1.discordapp.net/external/wKoa9jK3wgxA84VjQ208dOMH82qm6IR7evnzi811tFY/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1548394521547767889.png?format=webp&quality=lossless",
-    Gargoyle = "https://images-ext-1.discordapp.net/external/jmVbl3NyjZnU5QJOyE6WsD60B2hzdVCTkA9zRxcpttQ/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1548396246044254378.png?format=webp&quality=lossless",
-    ["Eternal Lunar Dragon"] = "https://images-ext-1.discordapp.net/external/KYyPDwuWruBYZRoX8k4NOl5Ia_pfj8i38uHWGtV3BnQ/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544970966537474119.png?format=webp&quality=lossless",
-    ["Mutant Shark"] = "https://images-ext-1.discordapp.net/external/BDL3DSnDKTPONyPLSL9GGrknnGanJinLkv80izwnWXk/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544970970547101698.png?format=webp&quality=lossless",
-    Stag = "https://images-ext-1.discordapp.net/external/BSiupETPOZWnrSXxwvhCtLeeAGOrDpxVfSKM10jvdXE/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544970977799180319.png?format=webp&quality=lossless",
-    ["El Maja"] = "https://images-ext-1.discordapp.net/external/3pZRYpvW4DUaTByzHxoeBp9P_FvTPkVoU1ypMo99-N0/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544970956403900496.png?format=webp&quality=lossless",
-    ["Ice Dragon"] = "https://images-ext-1.discordapp.net/external/O-kE2_Ttz5AbwpQp5vUXmcBk6LqGkig1-MmIxD4GHug/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544970958572359780.png?format=webp&quality=lossless",
-    ["Cosmic Dragon"] = "https://images-ext-1.discordapp.net/external/3UC_fdoaMdz1Te-d8jqXigpvs5j_KJ0CnySeBYTwstM/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544970952411193394.png?format=webp&quality=lossless",
-    ["Cosmic Skeleton Boss"] = "https://images-ext-1.discordapp.net/external/Ce62M6-GhGYkPz1MgsKs1Yp0asYEINet4zRb4yZ_a3E/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544970954399031357.png?format=webp&quality=lossless",
-    Tralaledon = "https://images-ext-1.discordapp.net/external/EN4WfmIdxfcUqonR6fEC-nntW0DoYbpygaf3sewfzh8/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544970980667953222.png?format=webp&quality=lossless",
-    TRex = "https://images-ext-1.discordapp.net/external/a0h-nTsRO_uuCFByqh4ExwxGyc_Z9HthlSIY30Jk9Fo/%3Fcb%3D20260903161834/https/static.wikia.nocookie.net/stealanegg/images/f/f8/T-Rex.png/revision/latest?format=webp",
-    ["T-Rex"] = "https://images-ext-1.discordapp.net/external/a0h-nTsRO_uuCFByqh4ExwxGyc_Z9HthlSIY30Jk9Fo/%3Fcb%3D20260903161834/https/static.wikia.nocookie.net/stealanegg/images/f/f8/T-Rex.png/revision/latest?format=webp",
-    Phoenix = "https://images-ext-1.discordapp.net/external/ybCGVdn3EcxxDByhefPooO4q_YfwNmV2gIYnoXYBMSQ/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544970975743840316.png?format=webp&quality=lossless",
-    ["Lava Dragon"] = "https://images-ext-1.discordapp.net/external/GHyEhG1zQmz42-AgT32OyPuRsC0QR3NZkNyCD4XAr5A/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544971686548348968.png?format=webp&quality=lossless",
-    Kraken = "https://images-ext-1.discordapp.net/external/SWQXCegKedjXp9yjVNnxb6bBtob3fGpamlY1aOwOXbM/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1544970964159172700.png?format=webp&quality=lossless",
-    RazorFang = "https://images-ext-1.discordapp.net/external/mECjHKOllRFWT3fET1P0yzpoHIesImSHSJM9aC0Zem0/%3Fsize%3D240/https/cdn.discordapp.com/emojis/1548394523506245662.png?format=webp&quality=lossless",
-  }
-
-  local function f60(replicatedStorage2, p42)
-    local findFirstChild2 = replicatedStorage2
-
-    for match in string.gmatch(p42, "[^%./]+") do
-      if not findFirstChild2 then
-        return nil
-      end
-
-      findFirstChild2 = findFirstChild2:FindFirstChild(match)
-    end
-
-    return findFirstChild2
-  end
-
-  local function f61(p43)
-    return table.concat({
-      string.lower(p43.name), tostring(p43.earning), string.format("%.4f", p43.size),
-    }, "|")
-  end
-
-  local v106 = -30
-  local v107
-
-  local function f62()
-    if v107 and v107.Parent then
-      return v107
-    end
-
-    v107 = f60(replicatedStorage, "Packages.Networking.RF/EggWorld/AskFieldEggSnapshot")
-
-    if v107 and v107:IsA("RemoteFunction") then
-      return v107
-    else
-      local v108 = {}
-
-      for index23, value29 in ipairs(replicatedStorage:GetDescendants()) do
-        if value29:IsA("RemoteFunction") then
-          local gsub = string.lower(value29.Name):gsub("[^%w]", "")
-
-          if gsub == "askfieldeggsnapshot"
-            or string.find(gsub, "egg", 1, true) and string.find(gsub, "snapshot", 1, true) then
-            v107 = value29
-            return v107
-          end
-
-          if #v108 < 8
-            and (string.find(gsub, "egg", 1, true) or string.find(gsub, "snapshot", 1, true)) then
-            table.insert(v108, value29:GetFullName())
-          end
-        end
-      end
-
-      return nil, "No se encontró AskFieldEggSnapshot en ReplicatedStorage."
-        .. (#v108 > 0 and " Remotos parecidos: " .. table.concat(v108, "; ")
-          or " No hay RemoteFunctions con 'egg' o 'snapshot' visibles.")
-    end
-  end
-
-  local v109 = {}
-
-  local function f63()
-    return request or http_request or syn and syn.request
-  end
-
-  local v110 = 0
-
-  local function f64(assetCategory, value30)
-    local v111 = v109[tostring(assetCategory)]
-
-    if type(v111) ~= "table" then
-      return nil
-    else
-      local v112 = tonumber(v111.EarningRate) or 0
-      local v113 = tonumber(value30.AssetScale) or 1
-      local mutations = value30.Mutations
-      local v114 = 1 + (type(mutations) == "table" and #mutations or 0) * 0.25
-
-      return {
-        name = v111.DisplayName or v111._id or tostring(assetCategory),
-        earning = math.floor(v112 * v113 * v114),
-      }
-    end
-  end
-
-  local v115 = {}
-  local f65
-
-  local function f66(p44, url, includeServerInfo)
-    return false, "Webhook reporting disabled in Flyers build."
-    local v116 = f63()
-
-    if type(v116) ~= "function" then
-      return false, "Volt no expone request/http_request/syn.request."
-    else
-      local v117 = v105[p44.name]
-      local fields = nil
-      local v118 = string.format("```%s | $%s/s```", p44.name, f65(p44.earning))
-
-      if includeServerInfo then
-        local v119 = tostring(game.JobId or "")
-
-        if v119 == "" then
-          v119 = "No disponible"
-        end
-
-        local v120 = "https://www.roblox.com/games/start?placeId="
-          .. tostring(game.PlaceId or "") .. "&gameInstanceId=" .. httpService:UrlEncode(v119)
-
-        fields = {
-          {
-            name = "Usuario Roblox",
-            value = localPlayer4 and localPlayer4.Name or "No disponible",
-            inline = true,
-          },
-          { name = "📱 ID del servidor (móvil)", value = "`" .. v119 .. "`", inline = false },
-          { name = "💻 ID del servidor (PC)", value = "```" .. v119 .. "```", inline = false },
-          {
-            name = "Entrar al servidor",
-            value = "[Abrir servidor](" .. v120 .. ")",
-            inline = false,
-          },
-        }
-      end
-
-      local v121 = {
-        username = v104.WebhookName,
-        avatar_url = v104.WebhookAvatar,
-        embeds = {
-          {
-            title = "🔥 Rare Pet Found",
-            description = v118,
-            thumbnail = v117 and { url = v117 } or nil,
-            fields = fields,
-            color = 16762960,
-            footer = { text = v104.FooterText },
-          },
-        },
-      }
-
-      local v122, v123 = pcall(function()
-        return v116({
-          Url = url,
-          Method = "POST",
-          Headers = { ["Content-Type"] = "application/json" },
-          Body = httpService:JSONEncode(v121),
-        })
-      end)
-
-      if not v122 then
-        return false, tostring(v123)
-      end
-
-      if type(v123) == "table" and v123.StatusCode and v123.StatusCode >= 400 then
-        return false, "Discord HTTP " .. tostring(v123.StatusCode)
-      end
-
-      return true
-    end
-  end
-
-  function f65(p45)
-    if p45 >= 1000000000000 then
-      return string.format("%.2fT", p45 / 1000000000000)
-    elseif p45 >= 1000000000 then
-      return string.format("%.2fB", p45 / 1000000000)
-    elseif p45 >= 1000000 then
-      return string.format("%.2fM", p45 / 1000000)
-    else
-      if p45 >= 1000 then
-        return string.format("%.2fK", p45 / 1000)
-      end
-
-      return tostring(math.floor(p45))
-    end
-  end
-
-  local function f67()
-    local v124, v125 = f62()
-
-    if not v124 then
-      return nil, v125
-    else
-      local v126, v127 = pcall(function() return v124:InvokeServer() end)
-
-      if not v126 or type(v127) ~= "table" then
-        return nil, "No se pudo leer el snapshot del servidor."
-      else
-        local records = v127.Records or v127
-
-        if type(records) ~= "table" then
-          return nil
-        else
-          local v128 = {}
-          local v129 = {}
-
-          for key4, value31 in pairs(records) do
-            if type(value31) == "table" and value31.AssetCategory then
-              local v130 = f64(value31.AssetCategory, value31)
-
-              if v130 and v130.earning >= v104.MinimumEarning then
-                local id = value31.Id
-                local v131 = id
-
-                if not id then
-                  local id2 = value31.ID
-
-                  local recordId = id2 or value31.RecordId or value31.Guid or value31.GUID
-                    or value31.UUID or value31.Uid or value31.InstanceId or value31.InstanceID
-                    or key4
-
-                  v131 = recordId
-                end
-
-                if v131 == nil then
-                  local v132 = tostring
-
-                  v131 = table.concat({
-                    v132(value31.OwnerUserId or value31.OwnerId or value31.Owner or ""),
-                    tostring(value31.Plot or value31.PlotId or ""),
-                    tostring(value31.Slot or value31.SlotId or value31.Index or ""),
-                    tostring(value31.AssetCategory), tostring(value31.AssetScale or 1),
-                    tostring(value31.State),
-                  }, "|")
-                end
-
-                local v133 = {
-                  id = tostring(v131),
-                  name = v130.name,
-                  earning = v130.earning,
-                  size = tonumber(value31.AssetScale) or 1,
-                }
-
-                v129[f61(v133)] = true
-
-                if value31.State == "Slot" then
-                  table.insert(v128, v133)
-                end
-              end
-            end
-          end
-
-          table.sort(v128, function(p46, p47)
-            if p46.earning == p47.earning then
-              return p46.id < p47.id
-            end
-
-            return p46.earning > p47.earning
-          end)
-
-          return v128, nil, v129
-        end
-      end
-    end
-  end
-
-  local v134, v135, v136, v137, v138, v139
-
-  while true do
-    local v140, v141, v142 = f67()
-
-    if v141 then
-      if v141 ~= v134 then
-        warn("Drey Finder: " .. v141)
-        v134 = v141
-      end
-    else
-      v134 = nil
-
-      if v140 then
-        local v143 = os.clock()
-
-        for key5 in pairs(v142 or {}) do
-          local v144 = v115[key5]
-
-          if v144 then
-            v144.lastSeenAt = v143
-          end
-        end
-
-        for key6, value32 in pairs(v115) do
-          if not presentFingerprints[key6] and v143 - value32.lastSeenAt >= 180 then
-            v115[key6] = nil
-          end
-        end
-
-        local v145 = v140[1]
-
-        if v145 then
-          local v146 = f61(v145)
-          v110 = 0
-
-          if v115[v146] then
-            v139 = v146
-            v138 = nil
-            v137 = nil
-            v135 = nil
-          elseif v146 ~= v139 then
-            if v146 ~= v135 then
-              v135 = v146
-              v138 = v145
-
-              v137 = {
-                {
-                  url = v145.earning >= v104.HighTierMinimum and v104.HighWebhook
-                    or v104.LowWebhook,
-                  includeServerInfo = false,
-                },
-              }
-
-              if v145.earning >= v104.Over100Minimum then
-                table.insert(v137, { url = v104.Over100Webhook, includeServerInfo = true })
-              end
-            end
-          else
-            v137 = nil
-            v135 = nil
-            v138 = nil
-          end
-        else
-          v110 = v110 + 1
-
-          if v110 >= 3 then
-            v139 = nil
-            v137 = nil
-            v138 = nil
-            v135 = nil
-          end
-        end
-
-        if v138 and v137 and #v137 > 0 and v143 - v106 >= 2 then
-          local v147 = table.remove(v137, 1)
-          v106 = v143
-          local v148, v149 = f66(v138, v147.url, v147.includeServerInfo)
-
-          if v148 then
-            v136 = nil
-
-            if #v137 == 0 then
-              v139 = v135
-              v137 = nil
-              v115[v135] = { lastSeenAt = v143 }
-              v138 = nil
-              v135 = nil
-            end
-          else
-            if v149 ~= v136 then
-              warn("Drey Finder: " .. tostring(v149))
-              v136 = v149
-            end
-
-            table.insert(v137, 1, v147)
-          end
-        end
-      end
-    end
-
-    task.wait(v104.ScanInterval)
-  end
-end
-
--- https://discord.gg/AwGHNh7Z7T
+  screenGui.Name = "SpeedP
